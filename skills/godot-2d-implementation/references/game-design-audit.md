@@ -17,6 +17,8 @@ Prefer small files in `docs/design/` over one giant document:
 
 Each file should include implementation implications and validation criteria.
 
+Every explicit demo promise should map to a proof surface in `test_matrix.md`, an automation scenario, a screenshot scenario, or a documented manual QA gate. If a promise cannot be verified, either narrow the promise or add the missing evidence path before claiming the slice is complete.
+
 ## Audit Questions
 
 - What is the primary player verb?
@@ -27,6 +29,9 @@ Each file should include implementation implications and validation criteria.
 - What is the smallest playable slice?
 - Which feedback layer tells the player what happened?
 - Which UI states can fail with long text or large numbers?
+- Can a new player identify the first useful action within 30 seconds without reading source docs?
+- Do win and loss happen through real player/system paths rather than direct debug calls?
+- Does each menu path have a reason to exist in the current demo, and does it recover to play?
 - What must be human-approved before Codex can use it as a baseline?
 
 ## Design To Implementation Contract
@@ -69,6 +74,16 @@ Prefer a narrow vertical slice over a broad feature list:
 6. One deterministic validation scenario.
 
 Treat new systems as backlog unless they strengthen that slice.
+
+For Steam-demo-style slices, treat these as core scope once gameplay exists:
+
+- title menu with replayable/custom run start
+- first-minute onboarding or route guidance
+- pause/resume/settings
+- save/continue when runs last long enough to justify it
+- market/shop decision context if purchases exist
+- victory, failure, retry, and main-menu return
+- screenshots or manifests for the important visible states
 
 ## Phase-Based Output
 

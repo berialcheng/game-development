@@ -67,6 +67,8 @@ Use deterministic automation scenarios, GodotTestDriver, or existing simulated i
 - Trigger level-up
 - Take damage and recover
 - Game over/retry
+- Save/continue when the project supports persistence
+- First-minute tutorial or route guidance when onboarding text changes
 
 Keep visual/integration tests serial unless the project explicitly supports parallel execution.
 
@@ -79,6 +81,17 @@ For interaction polish, include invalid and non-scoring paths, not only happy pa
 - modal shortcuts and retry/menu flows
 
 Scenarios should use the same input path a player uses when practical, assert both state changes and player-facing text, print a compact JSON result, and exit nonzero on failure.
+
+Do not prove a player outcome only by calling the final internal function. For win/loss, economy unlocks, tutorial completion, save/continue, or other player-facing outcomes, drive the prerequisite state through gameplay systems or a fixture that mirrors the player path, then assert the final overlay, reason text, run summary, and event log.
+
+For demo-quality menu/UI flow, include at least one deterministic scenario for:
+
+- title menu start path
+- invalid input feedback
+- settings or audio persistence
+- pause/resume/retry path
+- save/continue if supported
+- victory and failure recap paths
 
 ## Layer 5: Screenshot And Manifest Regression
 
@@ -96,6 +109,8 @@ For visual, UI, and effect changes, prefer scenario captures with JSON manifests
 Codex can judge missing files, missing labels, obvious overflow, event mismatch, excessive counts, and manifest mismatch. Do not let Codex claim final subjective art quality without a human-approved baseline.
 
 For UI changes, headless startup is not sufficient. Pair the affected visible state with at least one deterministic screenshot or manifest, and inspect it for text overflow, unclear disabled states, missing reasons, incorrect event tags, and blocked decision context.
+
+When checking a screenshot, look for player-decision context, not just nonblank pixels: current goal, next action, affordability/missing requirements, risk forecast where relevant, disabled-action reason, and a clear retry/back path on modals.
 
 Screenshot capture rules:
 

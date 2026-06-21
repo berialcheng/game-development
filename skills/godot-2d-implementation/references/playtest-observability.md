@@ -48,6 +48,13 @@ When a project supports automation, each run should write a JSON manifest with:
     "max_effects_alive": 24,
     "max_damage_numbers_alive": 14
   },
+  "summary": {
+    "state": "playing",
+    "result": "in_progress",
+    "reason": "",
+    "seed": 12345,
+    "recent_log": []
+  },
   "warnings": [],
   "errors": []
 }
@@ -65,6 +72,9 @@ Gameplay:
 - pickups collected/missed
 - wave duration
 - ability casts and cooldown failures
+- win/loss state and reason
+- recent event log entries with explicit tags
+- next objective or route-planner text for guided games
 
 Readability/effects:
 
@@ -81,6 +91,8 @@ Economy/progression:
 - shop refreshes
 - item choices offered
 - drop counts by rarity
+- affordability or missing-cost state for blocked purchases/actions
+- save slot summary when persistence is part of the demo
 
 Stability/performance proxies:
 
@@ -109,6 +121,9 @@ Compare against a baseline when available:
 - Missing manifest key used by tests: fail.
 - New load error or script error: fail.
 - Event count unexpectedly zero for the feature under test: fail.
+- Run result says `pass` while warnings/errors are nonempty: fail unless the warning is explicitly expected by the scenario.
+- Win/loss scenario lacks a human-readable reason or recent log: fail.
+- A menu/onboarding scenario lacks the expected player-facing guidance text: fail.
 - Effect/object count exceeds budget: warn or fail based on project policy.
 - Gameplay metric drift outside accepted tolerance: warn or fail.
 

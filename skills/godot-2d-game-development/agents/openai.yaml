@@ -1,4 +1,0 @@
-interface:
-  display_name: "Godot 2D Game Development"
-  short_description: "Godot 2D gameplay, effects, assets, validation"
-  default_prompt: "Use $godot-2d-game-development to implement and validate a Godot 4 2D gameplay, UI, effects, or asset pipeline change."

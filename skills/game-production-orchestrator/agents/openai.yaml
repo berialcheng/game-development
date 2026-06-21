@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Production Orchestrator"
+  short_description: "Plan and coordinate iterative game production"
+  default_prompt: "Use $game-production-orchestrator to plan the next game iteration, update docs, define the current phase, coordinate handoff, and prepare validation/playtest outputs."

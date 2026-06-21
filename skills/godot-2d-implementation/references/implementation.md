@@ -41,11 +41,14 @@ Do not start with architecture. Start with the smallest change that can prove th
 - Check long labels, large values, pause, shop, level-up, game-over, low-health, and empty-state panels.
 - Preserve keyboard/controller focus if the project supports it.
 - For visual changes, inspect a screenshot or manifest. A `.tscn` diff alone does not prove the UI works.
+- Treat onboarding, pause, settings, save/continue, victory, failure, retry, and main-menu paths as part of the playable slice, not polish after gameplay. A demo is not complete while players can reach a state without a clear next action or recovery path.
+- First-minute guidance should name concrete player actions and examples. Prefer `Select Worker + Forest to Chop Wood` over abstract rules like `combine cards to craft`.
 - High-frequency player actions must produce visible feedback, not only a changed layout. Examples include sort, play, discard, buy, reroll, pause/resume, and enter-next-round.
 - Invalid input must explain the reason at the player's current focus point instead of failing silently. Examples include selection limits, empty plays, no discards left, unaffordable shop offers, full slots, and unaffordable rerolls.
 - Feedback text should be short, specific, and actionable. Prefer `Can't buy Blue Chip: need $3 more.` over `Invalid action.`
 - Card, roguelite, and shop screens should expose decision context in the current surface: target score, remaining hands/discards, wallet, build, slots, affordability, reward formulas, next blind target, best hand, final build, and retry path where relevant.
 - Run logs should use explicit event tags such as `RUN`, `BLIND`, `SCORE`, `DISCARD`, `SHOP`, `CLEAR`, and `ACTION`. Do not classify operation-only events such as sorting as scoring events.
+- Failure and victory overlays should explain the cause, summarize the run, and offer an immediate retry/menu path. Store the reason in state or summary data so save/load, manifests, screenshots, and tests can assert it.
 
 ## Data Rules
 

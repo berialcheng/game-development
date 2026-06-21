@@ -88,6 +88,28 @@ Report:
 
 - States checked, overflow/focus risk, screenshot path if produced.
 
+## Harden Demo Player Path
+
+Read:
+
+- GDD demo promises, test matrix, menu/HUD scripts, save/settings code, screenshot scenarios, playtest manifests.
+
+Change:
+
+- Pick one player-facing gap: first action clarity, invalid-action reason, route guidance, shop affordability, save/continue, pause/settings, victory recap, failure recap, or retry path.
+- Make the state explain itself on screen with concrete next actions and short reason text.
+- Store important outcome reasons in summary/manifest data when tests or screenshots need to assert them.
+
+Validate:
+
+- Run the nearest deterministic scenario that reaches the state through gameplay or player-equivalent automation.
+- Capture the affected visible state when UI changed.
+- Inspect stdout/stderr for Godot errors and inspect the screenshot for decision context.
+
+Report:
+
+- Player path improved, scenario/seed, screenshot path, and any remaining unverified subjective quality.
+
 ## Add VFX, Camera, Or Audio Feedback
 
 Read:
@@ -217,6 +239,36 @@ Validate:
 Report:
 
 - Root cause, proof of fix, metric/screenshot evidence, remaining uncertainty.
+
+## Execute Production Phase
+
+Read:
+
+- `AGENTS.md`.
+- Current implementation phase doc, usually `docs/working/implementation_details.md`.
+- Relevant design docs such as UX principles, UI flow inventory, sprite style bible, combat/progression notes.
+- Existing tests, automation, and validation commands.
+
+Change:
+
+- Implement only the current phase.
+- Keep explicit non-scope untouched.
+- Update docs only when the implementation changes active knowledge, and report why.
+- Preserve rollbackability by avoiding broad unrelated refactors.
+
+Validate:
+
+- Run the phase's required validation.
+- Treat Godot script/resource errors as failures even with exit code 0.
+- Produce screenshot/manifest evidence for player-facing visual changes when available.
+
+Report:
+
+- Changed files by category: code, scenes/resources, data, assets, docs.
+- Validation result.
+- Whether acceptance criteria passed.
+- Remaining risks.
+- Suggested next iteration or promotion state.
 
 ## Add First GUT Or gdUnit4 Test
 

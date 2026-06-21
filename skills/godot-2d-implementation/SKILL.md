@@ -1,6 +1,6 @@
 ---
-name: godot-2d-game-development
-description: Godot 4 2D game development workflow for Codex. Use when implementing or reviewing Godot 2D gameplay, UI, scene, script, data, effects, camera feedback, audio cues, Aseprite asset pipeline, automated tests, screenshot baselines, GDD slices, or repo-local AGENTS.md rules. Especially useful for small/solo indie game projects that need scoped implementation, player-facing effect management, deterministic validation, and limited adoption of external game-development skill repositories.
+name: godot-2d-implementation
+description: "Godot 4 2D implementation and validation workflow. Use when executing a defined production phase in a Godot project, including scenes, scripts, UI, gameplay, effects, Aseprite/sprite import, tests, screenshots, manifests, and next-iteration reports."
 ---
 
 # Godot 2D Game Development
@@ -37,6 +37,7 @@ If the phase is unclear, assume vertical slice for new game features.
    - Find `project.godot`, `AGENTS.md`, `docs/design/`, scenes, scripts, data, assets, tests, and automation commands.
    - Prefer current project structure over generic templates.
    - Read the relevant design slice before changing behavior.
+   - For production-loop projects, also read `docs/working/implementation_details.md`, `docs/working/ux_principles.md`, `docs/working/ui_flow_inventory.md` for UI work, and `docs/working/sprite_style_bible.md` for asset work when present.
 
 2. Classify the task and load only the needed reference.
    - Gameplay/system/UI/data: `references/implementation.md`
@@ -102,6 +103,19 @@ game/
 
 For new Godot 2D repositories, create or adapt `AGENTS.md` with Godot paths, headless command, test command, screenshot command, forbidden generated paths, and done criteria.
 
+## Input Contract
+
+Before implementation, identify:
+
+- Current phase and iteration state.
+- Design docs read.
+- Acceptance criteria.
+- In-scope and out-of-scope systems.
+- Required validation: startup, logic test, deterministic scenario, screenshot, manifest, Aseprite export, or playtest note.
+- Docs that may need updates.
+
+If the docs are missing, stale, or contradictory, report the conflict before broad changes. Do not silently resolve product/UX/art direction conflicts in code.
+
 ## Guardrails
 
 - Use GDScript for gameplay unless the project already uses C# or another language.
@@ -125,11 +139,25 @@ After repeated mistakes or useful discoveries:
 - Put cross-project durable workflow rules in this skill.
 - Turn any recurring failure into either a rule, a fixture, a screenshot scenario, or a checklist item.
 
+## Output Contract
+
+After implementation, report:
+
+- Changed code files.
+- Changed scene/resource files.
+- Changed docs.
+- Assets added or modified.
+- Tests/checks run and notable command output.
+- Screenshot, manifest, or manual validation result.
+- Known risks and missing validation.
+- Suggested next iteration.
+- Phase state: prototype, playtestable, candidate, approved, final, or needs another iteration.
+
 ## Sample Prompts
 
 ```text
-Use $godot-2d-game-development to add a data-driven enemy with one deterministic combat screenshot.
-Use $godot-2d-game-development to import an Aseprite character sheet and verify SpriteFrames.
-Use $godot-2d-game-development to review a GDD slice and produce implementation/test implications.
-Use $godot-2d-game-development to add hit feedback VFX without hiding combat readability.
+Use $godot-2d-implementation to add a data-driven enemy with one deterministic combat screenshot.
+Use $godot-2d-implementation to import an Aseprite character sheet and verify SpriteFrames.
+Use $godot-2d-implementation to review a GDD slice and produce implementation/test implications.
+Use $godot-2d-implementation to add hit feedback VFX without hiding combat readability.
 ```
