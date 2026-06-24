@@ -20,7 +20,7 @@ research/goal -> design docs -> phase plan -> implementation -> validation -> pl
 ## Workflow
 
 1. Establish project rules.
-   - Create or update `AGENTS.md`, `docs/game_vision.md`, `docs/ux_principles.md`, `docs/sprite_style_bible.md`, `docs/implementation.md`, `docs/playtest_log.md`, and `docs/ai_asset_register.md`.
+   - Create or update `AGENTS.md`, `docs/vision/game_vision.md`, `docs/working/ux_principles.md`, `docs/working/sprite_style_bible.md`, `docs/working/implementation.md`, `docs/evidence/playtest_log.md`, and `docs/ai_asset_register.md`.
    - Read `references/project-scaffold.md` for the recommended files and contents.
 
 2. Manage iteration.
@@ -40,7 +40,8 @@ research/goal -> design docs -> phase plan -> implementation -> validation -> pl
 5. Use sprite and AI art safely.
    - Generate placeholders, not final art, unless the user explicitly accepts the asset governance burden.
    - Keep generated assets out of final folders, validate frame size/pivot/naming, and register provenance.
-   - Read `references/sprite-pipeline.md`.
+   - Read `references/sprite-pipeline.md` for sprite/animation pipeline.
+   - Read `references/ai-asset-governance.md` for AI asset register, folder, rights, and disclosure rules.
 
 6. Use Codex review deliberately.
    - Separate developer and reviewer roles when possible.
@@ -67,6 +68,14 @@ research/goal -> design docs -> phase plan -> implementation -> validation -> pl
 - Use `$game-reference-research` for competitor/store/media research before deciding what to build.
 - Use `$godot-2d-implementation` for Godot scene/script/data/assets implementation and engine validation.
 - Use this skill for the production process around Codex: rules, docs, prompts, review loops, UX audits, sprite governance, and playtest iteration.
+
+## Routing Rule
+
+When a request could match more than one skill in this set:
+
+- If you are deciding what to build, defining a phase, planning an iteration, reviewing produced evidence, coordinating handoff, governing AI assets, or packaging a milestone → use this skill.
+- If you are inside a decided phase and editing Godot scenes, scripts, data, assets, effects, tests, or screenshots → use `$godot-2d-implementation`.
+- If the current phase, scope, or acceptance criteria are unclear, run this skill first to define the phase and acceptance, then hand off to `$godot-2d-implementation`. Do not let broad Godot work start without a decided phase.
 
 ## Handoff Contract
 

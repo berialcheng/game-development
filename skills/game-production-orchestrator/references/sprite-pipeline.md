@@ -47,7 +47,7 @@ Restrictions:
 ```text
 Create a placeholder sprite sheet spec for enemy_slime.
 
-Use docs/sprite_style_bible.md.
+Use docs/working/sprite_style_bible.md.
 
 Requirements:
 - 32x32 per frame.

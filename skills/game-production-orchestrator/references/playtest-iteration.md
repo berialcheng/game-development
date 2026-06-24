@@ -45,7 +45,7 @@ Duration:
 ## Codex Processing Prompt
 
 ```text
-Read docs/playtest_log.md and turn it into a UX backlog.
+Read docs/evidence/playtest_log.md and turn it into a UX backlog.
 
 Classify issues:
 - Information unclear.

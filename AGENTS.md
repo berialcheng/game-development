@@ -6,7 +6,8 @@ This repository is a collection of Codex skills for iterative game development.
 
 - Installable skills live under `skills/<skill-name>/`.
 - Each installable skill must contain `SKILL.md`.
-- Keep repo-level documentation in the repository root or `skills/README.md`, not inside individual skill folders.
+- Keep repo-level documentation in `docs/` or `skills/README.md`, not inside individual skill folders.
+- The repository's own research notes and retrospectives live under `docs/archive/`, named `YYYY-MM-DD-<slug>.md`. Do not confuse this `docs/` with the target Godot project's `docs/` that the skills reference.
 - Demo projects and research notes are examples/reference material, not installable skills.
 
 ## Skill Maintenance
@@ -31,4 +32,3 @@ Treat validation failures as blocking before publishing or installing from this 
 
 - Do not move demo game projects into `skills/`.
 - Do not make generated Godot caches or screenshots part of the skill install surface.
-- Preserve `balaro-demo/` and `vampire-like/` as ignored local workspaces unless the user explicitly changes that policy.

@@ -1,5 +1,16 @@
 # AGENTS.md
 
+## How To Use This Template
+
+Copy this file to your Godot 4 2D project root. Keep the filename as `AGENTS.md`; Codex, Claude Code, and OpenCode all read it by that exact name from the project root.
+
+Replace these placeholders with values for your machine and project:
+
+- `<YOUR_GODOT_CONSOLE_EXE>` — absolute path to your Godot console executable, including the real version number. Example: `C:/Godot/Godot_v4.3-stable_win64_console.exe`.
+- `<YOUR_PROJECT_ROOT>` — absolute path to the folder containing `project.godot`. Example: `C:/games/my-game`.
+
+Then delete this "How To Use" section. The rest is project rules and stays.
+
 ## Project
 
 This is a Godot 4 2D game project. Work should preserve the existing scene/script/data structure and optimize for playable, verifiable iteration.
@@ -9,8 +20,8 @@ This is a Godot 4 2D game project. Work should preserve the existing scene/scrip
 Set the local Godot console path before using these commands:
 
 ```powershell
-$GODOT = "C:/opt/godot/Godot_v4.x-stable_win64_console.exe"
-$PROJECT = "C:/path/to/project/game"
+$GODOT = "<YOUR_GODOT_CONSOLE_EXE>"
+$PROJECT = "<YOUR_PROJECT_ROOT>"
 ```
 
 Run the game:

@@ -14,12 +14,14 @@ Use this skill to make Godot 4 2D game changes that are playable, scoped, readab
 When instructions conflict, apply this order:
 
 1. User request.
-2. Repository `AGENTS.md`.
+2. Target Godot project's `AGENTS.md` (project-specific rules, commands, forbidden paths).
 3. Project design docs and test matrix.
 4. This skill.
 5. External repositories and general Godot advice.
 
-If the project has no `AGENTS.md`, create or propose one only when it would capture commands, forbidden paths, validation rules, or repeated project-specific mistakes.
+`AGENTS.md` here refers to the target Godot project's file, not this skill repository's `AGENTS.md` (which governs skill maintenance, not in-project work).
+
+If the target Godot project has no `AGENTS.md`, create or propose one only when it would capture commands, forbidden paths, validation rules, or repeated project-specific mistakes.
 
 ## Phase Mode
 
@@ -115,6 +117,8 @@ Before implementation, identify:
 - Docs that may need updates.
 
 If the docs are missing, stale, or contradictory, report the conflict before broad changes. Do not silently resolve product/UX/art direction conflicts in code.
+
+If the current phase, acceptance criteria, or in/out scope are not defined, stop and invoke `$game-production-orchestrator` to define the phase before implementing. Do not begin broad Godot work without a decided phase and acceptance.
 
 ## Guardrails
 

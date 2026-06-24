@@ -43,7 +43,7 @@ Accessibility:
 ## Screenshot Review Prompt
 
 ```text
-Review this HUD/menu screenshot against docs/ux_principles.md.
+Review this HUD/menu screenshot against docs/working/ux_principles.md.
 
 Output:
 1. What the interface is trying to make the player do.

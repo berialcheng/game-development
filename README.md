@@ -90,14 +90,15 @@ Use `--copy` only when you explicitly want independent copies or symlink/junctio
 | [`package.json`](package.json) | Lightweight npm-style metadata for skill tooling. |
 | [`AGENTS.md`](AGENTS.md) | Maintenance rules for this skill repo. |
 | [`godot-2d-agent-template/`](godot-2d-agent-template/) | Reference `AGENTS.md` template for Godot 4 2D projects. |
+| [`docs/archive/`](docs/archive/) | Finished research and retrospective notes from past skill iterations, named `YYYY-MM-DD-<slug>.md`. |
 
-Root Markdown files are research/process notes that informed the current skills:
+Past research and retrospective notes live in [`docs/archive/`](docs/archive/):
 
 ```text
-gd-game-skill-redesign.md
-github-game-development-skills-and-repos.md
-godot-codex-2d-game-learning.md
-skill-review-improvement-notes.md
+docs/archive/2026-06-14-github-skills-research.md
+docs/archive/2026-06-14-skill-redesign.md
+docs/archive/2026-06-14-godot-codex-learning.md
+docs/archive/2026-06-14-skill-review-v1.md
 ```
 
 ## Validate

@@ -37,9 +37,10 @@
     "godot-2d-implementation",
     "game-production-orchestrator"
   ],
+  "recommended_order_note": "Linear first pass: research -> plan first phase -> implement -> review/plan next iteration. After the first iteration, repeat orchestrator->godot->orchestrator for each phase; re-run research when comparing new competitors.",
   "non_installable_content": [
     "demo/",
     "godot-2d-agent-template/",
-    "root markdown research notes"
+    "docs/"
   ]
 }

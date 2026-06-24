@@ -11,6 +11,15 @@ docs/
     game_vision.md
     target_player.md
     design_pillars.md
+  design/
+    GDD.md
+    core_loop.md
+    combat.md
+    progression.md
+    ui.md
+    art_direction.md
+    effects.md
+    test_matrix.md
   working/
     ux_principles.md
     ui_flow_inventory.md
@@ -47,6 +56,12 @@ Vision docs:
 
 - Decide direction and should not change casually.
 - Examples: game vision, target player, design pillars.
+
+Design docs:
+
+- Per-system design intent that translates vision into concrete systems.
+- Examples: GDD, core loop, combat, progression, UI design, art direction, effects rules, test matrix.
+- Lives in `docs/design/` as small files per system rather than one giant GDD.
 
 Working docs:
 
@@ -129,7 +144,7 @@ This is a game project. Prioritize readable, testable, maintainable player-facin
 - Every player action must produce clear feedback.
 - Menus must support keyboard/controller navigation when the project supports those inputs.
 - Error, empty, loading, disabled, pause, and game-over states must be handled.
-- Do not add new UI screens without updating `docs/ui_flow_inventory.md`.
+- Do not add new UI screens without updating `docs/working/ui_flow_inventory.md`.
 
 ## Sprite / Asset Rules
 - Never overwrite `assets/final`.
