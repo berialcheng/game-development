@@ -2,20 +2,26 @@
   "name": "game-development-skills",
   "version": "0.1.0",
   "private": true,
-  "description": "Codex skills for game reference research, iterative game production orchestration, and Godot 4 2D implementation.",
+  "description": "Codex skills for game research, production orchestration, Godot 4 2D implementation, and image-generation-first 2D game assets.",
   "keywords": [
     "codex-skills",
     "agent-skills",
     "game-development",
     "godot",
-    "steam-research"
+    "steam-research",
+    "image-generation",
+    "sprites",
+    "maps",
+    "asset-lifecycle"
   ],
   "skills": {
     "root": "skills",
     "paths": [
       "skills/game-reference-research",
       "skills/game-production-orchestrator",
-      "skills/godot-2d-implementation"
+      "skills/godot-2d-implementation",
+      "skills/generate2dsprite",
+      "skills/generate2dmap"
     ]
   }
 }

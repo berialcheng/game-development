@@ -5,7 +5,7 @@ Use this reference for Codex-assisted sprite, icon, placeholder, atlas, and anim
 ## Stable Pipeline
 
 ```text
-style bible -> placeholder sheet -> human review/cleanup -> validation/import -> in-game screenshot -> final promotion
+style bible -> generated bundle + manifest -> processed candidate -> runtime import -> in-game screenshot -> human review -> final promotion
 ```
 
 Codex is useful for placeholders, specs, validators, import scripts, atlas automation, and QA. Do not make Codex the sole final art director.
@@ -38,7 +38,8 @@ Naming:
 Restrictions:
 - Do not imitate named living artists.
 - Do not use copyrighted characters as references.
-- Generated assets go to generated placeholder folders.
+- Generated assets go to generated placeholder bundle folders with an `asset-manifest.json`.
+- Godot imports only files marked `accepted_for_runtime`.
 - Final assets require human review.
 ```
 
@@ -63,8 +64,8 @@ Requirements:
 - No copyrighted character references.
 - No named living artist style.
 
-Save to assets/generated_placeholders.
-Update docs/ai_asset_register.md.
+Save to assets/generated_placeholders/<asset_id-or-run_id>.
+Write asset-manifest.json and update docs/ai_asset_register.md.
 Do not modify assets/final.
 ```
 

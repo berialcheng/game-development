@@ -26,11 +26,13 @@ Release decision:
 ```text
 assets/
   generated_placeholders/
+  runtime_candidates/
   raw/
   final/
 ```
 
-- Generated content starts in `generated_placeholders`.
+- Generated bundles start in `generated_placeholders/<asset_id-or-run_id>` with source, processed, preview, and `asset-manifest.json`.
+- Runtime imports may use copies in `runtime_candidates` only when the manifest marks them `accepted_for_runtime`.
 - Raw references go in `raw` when the project has rights to store them.
 - Final art moves to `final` only after human review and rights/disclosure review.
 - Do not overwrite final assets automatically.
@@ -47,8 +49,8 @@ assets/
 
 When adding or changing AI-assisted assets, report:
 
-- Asset paths.
-- Whether each asset is placeholder or final candidate.
+- Asset paths and manifest paths.
+- Lifecycle state: raw generated, processed candidate, accepted runtime candidate, rejected, or human-reviewed final.
 - Register entries updated.
 - Validation performed.
 - Human review still required.

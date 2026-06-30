@@ -1,12 +1,14 @@
 {
   "schema_version": "1",
   "name": "game-development-skills",
-  "description": "Codex skills for game reference research, iterative game production orchestration, and Godot 4 2D implementation.",
+  "description": "Codex skills for game reference research, iterative game production orchestration, Godot 4 2D implementation, and image-generation-first 2D game asset production.",
   "skills_root": "skills",
   "install_paths": [
     "skills/game-reference-research",
     "skills/game-production-orchestrator",
-    "skills/godot-2d-implementation"
+    "skills/godot-2d-implementation",
+    "skills/generate2dsprite",
+    "skills/generate2dmap"
   ],
   "skills": [
     {
@@ -29,15 +31,31 @@
       "display_name": "Godot 2D Implementation",
       "role": "Godot implementer",
       "description": "Godot 4 2D implementation and validation workflow. Use when executing a defined production phase in a Godot project, including scenes, scripts, UI, gameplay, effects, Aseprite/sprite import, tests, screenshots, manifests, and next-iteration reports."
+    },
+    {
+      "name": "generate2dsprite",
+      "path": "skills/generate2dsprite",
+      "display_name": "Generate 2D Sprite",
+      "role": "2D sprite asset producer",
+      "description": "Generate and postprocess general 2D game assets and animation sheets: pixel-art sprites, clean HD map props, creatures, characters, NPCs, spells, projectiles, impacts, props, summons, and transparent GIF exports. Use when Codex should infer the asset plan from a natural-language request, match a reference or map art style, call built-in image_gen for solid-magenta raw sheets, and use the local processor only for chroma-key cleanup, frame extraction, alignment, QC, and transparent exports."
+    },
+    {
+      "name": "generate2dmap",
+      "path": "skills/generate2dmap",
+      "display_name": "Generate 2D Map",
+      "role": "2D map and level asset producer",
+      "description": "Generate and revise production-oriented 2D game maps with built-in image generation as the default visual asset source, choosing a visual model, runtime object model, collision model, art direction, and engine/export target. Use when Codex needs to create or integrate RPG maps, monster-taming maps, tactical arenas, battle backgrounds, side-scroller/parallax scenes, tilemaps, layered raster maps, clean HD hand-painted maps, pixel-inspired maps, prop packs, collision zones, walkable areas, or map previews."
     }
   ],
   "recommended_order": [
     "game-reference-research",
     "game-production-orchestrator",
+    "generate2dmap",
+    "generate2dsprite",
     "godot-2d-implementation",
     "game-production-orchestrator"
   ],
-  "recommended_order_note": "Linear first pass: research -> plan first phase -> implement -> review/plan next iteration. After the first iteration, repeat orchestrator->godot->orchestrator for each phase; re-run research when comparing new competitors.",
+  "recommended_order_note": "Branching first pass: research -> orchestrator defines phase, asset briefs, lifecycle policy, and acceptance gates -> run generate2dmap and/or generate2dsprite only for needed visual assets -> godot-2d-implementation imports accepted runtime candidates and validates -> orchestrator reviews evidence and plans the next iteration.",
   "non_installable_content": [
     "demo/",
     "godot-2d-agent-template/",

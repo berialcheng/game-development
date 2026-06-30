@@ -1,6 +1,6 @@
 ---
 name: game-production-orchestrator
-description: "Iterative game production orchestrator. Use when planning or improving a game through research handoff, living design docs, phased implementation, UX/sprite review, playtest feedback, validation, documentation updates, AI asset governance, code review, and milestone output."
+description: "Iterative game production orchestrator. Use when planning or improving a game through research handoff, living design docs, phased implementation, generated map/sprite asset planning, asset lifecycle governance, UX/sprite review, playtest feedback, validation, documentation updates, code review, and milestone output."
 ---
 
 # Codex Game Production
@@ -42,6 +42,7 @@ research/goal -> design docs -> phase plan -> implementation -> validation -> pl
    - Keep generated assets out of final folders, validate frame size/pivot/naming, and register provenance.
    - Read `references/sprite-pipeline.md` for sprite/animation pipeline.
    - Read `references/ai-asset-governance.md` for AI asset register, folder, rights, and disclosure rules.
+   - Read `references/asset-lifecycle.md` before a generated asset is handed to Godot, promoted to a runtime candidate, or reviewed as final art.
 
 6. Use Codex review deliberately.
    - Separate developer and reviewer roles when possible.
@@ -66,15 +67,17 @@ research/goal -> design docs -> phase plan -> implementation -> validation -> pl
 ## Relationship To Other Skills
 
 - Use `$game-reference-research` for competitor/store/media research before deciding what to build.
-- Use `$godot-2d-implementation` for Godot scene/script/data/assets implementation and engine validation.
-- Use this skill for the production process around Codex: rules, docs, prompts, review loops, UX audits, sprite governance, and playtest iteration.
+- Use `$generate2dmap` for generated maps, stages, tilemaps, parallax layers, map props, collision-zone planning, and map previews.
+- Use `$generate2dsprite` for generated sprites, animation sheets, actors, NPCs, enemies, props, spells, projectiles, impacts, FX, transparent frames, and GIF previews.
+- Use `$godot-2d-implementation` for Godot scene/script/data/assets implementation and engine validation after assets are accepted for runtime.
+- Use this skill for the production process around Codex: phase scope, asset briefs, lifecycle manifests, AI asset governance, rules, docs, review loops, UX audits, sprite governance, and playtest iteration.
 
 ## Routing Rule
 
 When a request could match more than one skill in this set:
 
-- If you are deciding what to build, defining a phase, planning an iteration, reviewing produced evidence, coordinating handoff, governing AI assets, or packaging a milestone → use this skill.
-- If you are inside a decided phase and editing Godot scenes, scripts, data, assets, effects, tests, or screenshots → use `$godot-2d-implementation`.
+- If you are deciding what to build, defining a phase, planning an iteration, reviewing produced evidence, coordinating handoff, governing AI assets, or packaging a milestone -> use this skill.
+- If you are inside a decided phase and editing Godot scenes, scripts, data, assets, effects, tests, or screenshots -> use `$godot-2d-implementation`.
 - If the current phase, scope, or acceptance criteria are unclear, run this skill first to define the phase and acceptance, then hand off to `$godot-2d-implementation`. Do not let broad Godot work start without a decided phase.
 
 ## Handoff Contract
@@ -87,6 +90,21 @@ From `$game-reference-research`, consume:
 - Prototype implications.
 - Risky assumptions and suggested docs to update.
 
+To `$generate2dmap` / `$generate2dsprite`, provide:
+
+- Asset brief: intended use, art style, camera/view, dimensions, runtime role, and references.
+- Lifecycle target: placeholder only, processed candidate, or accepted runtime candidate.
+- Output folder policy and required `asset-manifest.json` fields.
+- Style bible and restrictions from `docs/working/sprite_style_bible.md` or art direction docs.
+- Acceptance criteria: frame size, pivot, alpha, collision relevance, preview requirements, and rejected-output policy.
+
+From `$generate2dmap` / `$generate2dsprite`, collect:
+
+- Generated bundle path and `asset-manifest.json`.
+- Prompt/provenance files and register updates.
+- Runtime candidate paths and lifecycle states.
+- QC metadata, rejected outputs, previews, and remaining human review requirements.
+
 To `$godot-2d-implementation`, provide:
 
 - Current phase and iteration state.
@@ -94,11 +112,13 @@ To `$godot-2d-implementation`, provide:
 - Acceptance criteria.
 - Files/areas in scope and out of scope.
 - Required validation and screenshot/manifest expectations.
+- Accepted runtime asset manifest paths and import boundaries.
 - Stop condition.
 
 After `$godot-2d-implementation`, collect:
 
 - Changed code, scenes, resources, assets, and docs.
+- Imported asset manifests, runtime candidate paths, and generated bundle paths.
 - Validation results and command output.
 - Screenshots/manifests or missing validation gap.
 - Known risks and suggested next iteration.

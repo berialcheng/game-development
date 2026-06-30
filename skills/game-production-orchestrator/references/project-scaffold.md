@@ -43,6 +43,7 @@ docs/
 assets/
   raw/
   generated_placeholders/
+  runtime_candidates/
   final/
   atlases/
 tests/
@@ -148,8 +149,9 @@ This is a game project. Prioritize readable, testable, maintainable player-facin
 
 ## Sprite / Asset Rules
 - Never overwrite `assets/final`.
-- AI-generated or placeholder art must go into `assets/generated_placeholders`.
-- Update `docs/ai_asset_register.md` for generated assets.
+- AI-generated or placeholder art must start in `assets/generated_placeholders/<asset_id-or-run_id>` with an `asset-manifest.json`.
+- Only manifest entries marked `accepted_for_runtime` may be copied into `assets/runtime_candidates` or project runtime folders.
+- Update `docs/ai_asset_register.md` for generated assets and link the manifest.
 - Maintain consistent frame size, pivot, padding, naming, and atlas grouping.
 - Do not imitate a named living artist or use unlicensed references.
 
