@@ -51,24 +51,34 @@ If the phase is unclear, assume vertical slice for new game features.
    - Common task flows: `references/task-templates.md`
    - External skill or repo adoption: `references/selective-adoption.md`
 
-3. Convert intent into an implementation contract.
+3. Route generated visual assets before Godot import.
+   - If the task requires new or revised character sprites, NPCs, enemies, animation sheets, spells, projectiles, impacts, props, transparent frames, or GIF previews, invoke `$generate2dsprite` first and then import/validate the accepted outputs in Godot.
+   - If the task requires new or revised maps, levels, rooms, tilemaps, parallax backgrounds, layered raster scenes, prop packs, collision zones, walkable areas, or map previews, invoke `$generate2dmap` first and then wire the accepted outputs into Godot scenes, resources, collision, and metadata.
+   - Use both skills when a playable phase needs map art plus actor/prop/FX assets. `$generate2dmap` owns map/scene assets and `$generate2dsprite` owns actors, animation sheets, props, projectiles, impacts, and FX.
+   - Keep this skill responsible for Godot integration after asset generation: import settings, SpriteFrames, TileMap or scene data, collision, rendering order, deterministic screenshots, manifests, and runtime validation.
+   - Consume `asset-manifest.json` when generated assets come from a managed bundle. Import only entries marked `accepted_for_runtime`; leave raw outputs, prompts, reference mockups, GIFs, and QA previews out of runtime scenes.
+   - Keep generated bundle `source/` and `preview/` folders behind `.gdignore` or outside Godot import paths when bulk import would create noise.
+   - Do not bypass the asset skills with code-drawn art when the user asks for real visual assets. Use procedural placeholders only when explicitly requested or when validation scaffolding needs throwaway fixtures.
+
+4. Convert intent into an implementation contract.
    - Define the player-facing outcome.
    - Identify systems, scenes, scripts, data, assets, and effects touched.
    - Name the likely failure mode.
    - Choose the minimum validation artifact before editing.
 
-4. Make the smallest coherent change.
+5. Make the smallest coherent change.
    - Keep scene/script/data ownership boundaries intact.
    - Put tuning values in JSON, Resources, or existing data tables when available.
    - Do not rewrite unrelated architecture to make a local feature easier.
    - Do not treat AI-generated art candidates as final source assets.
 
-5. Validate against the minimum matrix.
+6. Validate against the minimum matrix.
    - Always run the repository's documented command first.
+   - On Windows, run Godot validation through a timeout wrapper that can kill native crash dialogs and `WerFault` instead of waiting forever.
    - Treat Godot `ERROR:` and `SCRIPT ERROR:` output as failed validation even when the process exits `0`.
    - If a required tool is missing, run the strongest available lower-level check and report the missing validation infrastructure.
 
-6. Report outcome.
+7. Report outcome.
    - State what changed, what validation ran, what remains unverified, and whether the gap belongs in `AGENTS.md`, `docs/design/`, a test, or this skill.
 
 ## Minimum Verification Matrix
@@ -114,6 +124,7 @@ Before implementation, identify:
 - Acceptance criteria.
 - In-scope and out-of-scope systems.
 - Required validation: startup, logic test, deterministic scenario, screenshot, manifest, Aseprite export, or playtest note.
+- Asset manifests to consume and which entries are `accepted_for_runtime`.
 - Docs that may need updates.
 
 If the docs are missing, stale, or contradictory, report the conflict before broad changes. Do not silently resolve product/UX/art direction conflicts in code.
@@ -126,11 +137,20 @@ If the current phase, acceptance criteria, or in/out scope are not defined, stop
 - Prefer typed GDScript signatures and exported variables for designer-tunable values.
 - Use deterministic seed support for gameplay, screenshots, and tests.
 - Use non-headless rendering for screenshot capture when headless uses dummy rendering or returns empty viewport textures.
+- Do not let direct Godot process launches hang unattended after a native crash popup; use a watchdog wrapper for smoke, script, and screenshot runs.
 - Use Godot Containers and Theme resources for UI rather than absolute-positioned panels.
 - Keep `.aseprite` files as source assets and exported PNG/JSON as runtime assets.
 - Put AI image candidates in generated or ignored folders until curated.
+- Do not import generated source bundles directly; consume accepted runtime candidates from manifest entries.
 - Do not let Codex judge final subjective art quality without a human-approved baseline.
 - Avoid importing external skills wholesale. Extract workflows, commands, templates, QA gates, and failure checks instead.
+
+## Related Skills
+
+- Use `$game-production-orchestrator` first when the phase, acceptance criteria, or asset scope is unclear.
+- Use `$generate2dmap` for generated or revised maps, levels, tilemaps, parallax stages, layered raster scenes, prop packs, collision-zone planning, and map previews.
+- Use `$generate2dsprite` for generated or revised sprites, animation sheets, actors, NPCs, enemies, props, spells, projectiles, impacts, FX, transparent frames, and GIF previews.
+- Use this skill after asset generation for Godot import settings, scene wiring, runtime data, tests, screenshots, manifests, and engine validation.
 
 ## Learning Loop
 
@@ -150,7 +170,7 @@ After implementation, report:
 - Changed code files.
 - Changed scene/resource files.
 - Changed docs.
-- Assets added or modified.
+- Assets added or modified, including manifest paths and lifecycle states.
 - Tests/checks run and notable command output.
 - Screenshot, manifest, or manual validation result.
 - Known risks and missing validation.
@@ -161,7 +181,7 @@ After implementation, report:
 
 ```text
 Use $godot-2d-implementation to add a data-driven enemy with one deterministic combat screenshot.
-Use $godot-2d-implementation to import an Aseprite character sheet and verify SpriteFrames.
+Use $generate2dsprite to create a side-view warrior idle/run sheet, then use $godot-2d-implementation to import it and verify SpriteFrames.
 Use $godot-2d-implementation to review a GDD slice and produce implementation/test implications.
-Use $godot-2d-implementation to add hit feedback VFX without hiding combat readability.
+Use $generate2dmap to create a side-scroller stage background and object plan, then use $godot-2d-implementation to wire the scene and validate runtime collision.
 ```

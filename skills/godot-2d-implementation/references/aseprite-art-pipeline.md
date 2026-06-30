@@ -7,6 +7,7 @@ Use this reference for 2D pixel-art assets, Aseprite source files, AI candidate 
 - Treat `.aseprite` files as source assets.
 - Treat exported PNG/JSON files as runtime outputs.
 - Treat AI-generated images as candidates, not final runtime assets.
+- Treat generated bundles as source/provenance; import only manifest entries marked `accepted_for_runtime`.
 - Put bulk candidate folders behind `.gdignore` when Godot should not import them.
 
 ## Asset Spec Checklist
@@ -72,4 +73,4 @@ Use AI images only after defining the target spec. Reject candidates that fail:
 - No stray pixels or merged layers that block editing.
 - No unreadable pose when placed next to real enemies, UI, and effects.
 
-When a candidate is promising, import it into a structured `.aseprite` template, then repair layers, palette, timing, pivot, and tags.
+When a pixel-art character, UI icon, or animation candidate is promising, import it into a structured `.aseprite` template, then repair layers, palette, timing, pivot, and tags. Do not force clean-HD map backgrounds, parallax scenery, or non-editable raster props through Aseprite unless the project explicitly uses Aseprite as the source format for those assets.

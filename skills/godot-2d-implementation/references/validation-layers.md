@@ -8,6 +8,8 @@ Run the strongest available check that matches the change. If the repository lac
 
 Godot process exit code is not sufficient proof. Treat `ERROR:`, `SCRIPT ERROR:`, parse errors, resource loader errors, and failed screenshot saves in command output or manifests as validation failures until fixed or explicitly explained.
 
+On Windows, a native Godot crash can raise an application error dialog and block Codex forever. Do not run long or risky validation as a direct synchronous `& $GODOT ...` command. Use a watchdog wrapper with a timeout, captured logs, and process cleanup so a crash becomes a reported validation failure instead of a stuck session.
+
 | Change type | Minimum verification |
 | --- | --- |
 | GDScript/resource/scene | Headless startup |
@@ -24,10 +26,30 @@ Godot process exit code is not sufficient proof. Treat `ERROR:`, `SCRIPT ERROR:`
 Run headless startup after scene, script, resource, import, or project setting changes:
 
 ```powershell
-& $GODOT --path $PROJECT --headless --quit
+$timeoutSec = 120
+$stdout = Join-Path $env:TEMP "godot-stdout-$PID.log"
+$stderr = Join-Path $env:TEMP "godot-stderr-$PID.log"
+$args = @("--path", $PROJECT, "--headless", "--quit")
+$proc = Start-Process -FilePath $GODOT -ArgumentList $args -NoNewWindow -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+if (-not $proc.WaitForExit($timeoutSec * 1000)) {
+  Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+  Get-Process WerFault -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+  throw "Godot validation timed out after $timeoutSec seconds; killed the Godot process/WerFault. See $stdout and $stderr"
+}
+if ($proc.ExitCode -ne 0) {
+  throw "Godot validation failed with exit code $($proc.ExitCode). See $stdout and $stderr"
+}
 ```
 
 If files were added or imported, run the repository's import command if documented.
+
+For script-based smoke tests, keep the same wrapper and replace the argument list:
+
+```powershell
+$args = @("--headless", "--path", $PROJECT, "--script", "res://scripts/tools/smoke_showcase.gd")
+```
+
+If the command times out after a Windows application error popup, report it as a native Godot crash or environment failure. Do not claim the gameplay issue was reproduced unless the same in-game failure path was reached and logged.
 
 If generated PNG/JSON files are used immediately, either run the import path or load them through runtime-safe APIs such as `Image.load()` and `ImageTexture.create_from_image()`. A file existing on disk does not prove `ResourceLoader.load()` can read it before import metadata exists.
 
@@ -126,6 +148,7 @@ Godot headless caveat:
 - Treat this as an environment/permission failure, not as a gameplay failure or pass.
 - Retry with normal permissions when available.
 - If retry is unavailable, report the exact unverified scenarios and keep the validation gap explicit.
+- If Windows Error Reporting or an application error popup appears, kill the Godot process and `WerFault`, preserve stdout/stderr, and continue with an explicit validation gap. Only change global WER registry settings after user approval.
 
 ## Layer 5.5: Run Metrics And Regression Evidence
 
