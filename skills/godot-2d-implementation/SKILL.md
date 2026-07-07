@@ -74,7 +74,9 @@ If the phase is unclear, assume vertical slice for new game features.
 
 6. Validate against the minimum matrix.
    - Always run the repository's documented command first.
+   - Prefer the target project's `AGENTS.md` watchdog/capture wrapper for Godot smoke, script, and screenshot runs; do not launch Godot GUI, bare long-running Godot commands, or desktop screenshot commands that can hang unattended.
    - On Windows, run Godot validation through a timeout wrapper that can kill native crash dialogs and `WerFault` instead of waiting forever.
+   - If the target project has no wrapper, copy `assets/godot-watchdog/run_godot_with_watchdog.ps1` into the project and register concrete commands in the project `AGENTS.md`.
    - Treat Godot `ERROR:` and `SCRIPT ERROR:` output as failed validation even when the process exits `0`.
    - If a required tool is missing, run the strongest available lower-level check and report the missing validation infrastructure.
 
@@ -138,6 +140,7 @@ If the current phase, acceptance criteria, or in/out scope are not defined, stop
 - Use deterministic seed support for gameplay, screenshots, and tests.
 - Use non-headless rendering for screenshot capture when headless uses dummy rendering or returns empty viewport textures.
 - Do not let direct Godot process launches hang unattended after a native crash popup; use a watchdog wrapper for smoke, script, and screenshot runs.
+- Keep concrete wrapper command names, modes, timeouts, and output directories in the target project's `AGENTS.md`; keep this skill limited to cross-project validation policy.
 - Use Godot Containers and Theme resources for UI rather than absolute-positioned panels.
 - Keep `.aseprite` files as source assets and exported PNG/JSON as runtime assets.
 - Put AI image candidates in generated or ignored folders until curated.

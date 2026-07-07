@@ -10,6 +10,22 @@ Godot process exit code is not sufficient proof. Treat `ERROR:`, `SCRIPT ERROR:`
 
 On Windows, a native Godot crash can raise an application error dialog and block Codex forever. Do not run long or risky validation as a direct synchronous `& $GODOT ...` command. Use a watchdog wrapper with a timeout, captured logs, and process cleanup so a crash becomes a reported validation failure instead of a stuck session.
 
+Prefer the target project's `AGENTS.md` wrapper commands for Godot validation and capture. Store concrete command names, modes, timeouts, and evidence directories there. Treat this reference as cross-project policy, not as the home for project-specific command catalogs.
+
+## Godot Watchdog Template
+
+If a Godot project lacks a safe wrapper, copy `assets/godot-watchdog/run_godot_with_watchdog.ps1` into the project, usually as `scripts/tools/run_godot_with_watchdog.ps1`, then adapt only project-specific defaults and document concrete commands in that project's `AGENTS.md`.
+
+Keep the template generic:
+
+- `startup` runs `--headless --quit`.
+- `script` runs a headless `res://...gd` automation script.
+- `capture` runs a non-headless `res://...gd` capture script unless the project proves headless screenshots are valid.
+- Logs go under `docs/evidence/generated/godot_logs/` with `--log-file` so Codex validation does not depend on Godot writing `user://logs`.
+- The wrapper kills same-run `WerFault`, times out stuck Godot runs, and treats `ERROR:` or `SCRIPT ERROR:` output as validation failure.
+
+Do not add long project-specific capture mode catalogs to the shared skill. Each project should own its capture modes, script paths, timeouts, and evidence names in `AGENTS.md` and its local wrapper.
+
 | Change type | Minimum verification |
 | --- | --- |
 | GDScript/resource/scene | Headless startup |
@@ -136,11 +152,13 @@ When checking a screenshot, look for player-decision context, not just nonblank 
 
 Screenshot capture rules:
 
+- Prefer in-game scenario capture saved to a workspace evidence path over OS desktop screenshots. Native Windows sandboxing and private desktops can make desktop screenshots blank, stale, or unable to see the target Godot window.
 - Headless Godot may use dummy rendering; viewport textures can be null or empty. Use non-headless rendering for actual PNG screenshots when headless cannot produce pixels.
 - Save screenshots to an absolute path or a verified project-relative path, then check the file exists and has nonzero size.
 - Do not set `screenshot_saved=true` before the save operation completes and the file existence check passes.
 - Record screenshot path, absolute path, requested/saved booleans, and save error code in the manifest.
 - Inspect at least one produced screenshot with an image viewer/tool when the task concerns UI, art, camera framing, or readability.
+- If direct image viewing is unavailable in the current sandbox, verify dimensions, nonzero size, sampled nonblank pixels, a hash prefix, and manifest fields with a local script or existing review page. Report that fallback explicitly instead of dropping visual validation.
 
 Godot headless caveat:
 

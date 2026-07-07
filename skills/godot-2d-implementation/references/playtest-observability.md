@@ -28,6 +28,12 @@ When a project supports automation, each run should write a JSON manifest with:
       "requested": true,
       "saved": true,
       "error": 0,
+      "file_size_bytes": 123456,
+      "width": 1280,
+      "height": 720,
+      "hash_prefix": "abcdef123456",
+      "nonblank_sample": true,
+      "verification_method": "image_viewer",
       "time_seconds": 10.0
     }
   ],
@@ -109,7 +115,11 @@ Screenshot/capture reliability:
 - capture saved
 - save error code
 - absolute path used for saving
-- nonzero file size if the verifier checks files
+- nonzero file size
+- width and height
+- hash prefix
+- sampled nonblank pixels or equivalent review-page proof
+- verification method, such as image viewer, pixel sampler, hash check, or HTML review page
 
 ## Regression Rules
 
