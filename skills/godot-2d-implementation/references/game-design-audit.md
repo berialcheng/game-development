@@ -1,5 +1,13 @@
 # Game Design Audit Reference
 
+## Contents
+
+- GDD As Living Context
+- Audit Questions
+- Design To Implementation Contract
+- Scope Control
+- Phase-Based Output
+
 Use this reference when reviewing a game idea, GDD, core loop, scope, balance, UI readability, effect feel, or milestone plan.
 
 ## GDD As Living Context

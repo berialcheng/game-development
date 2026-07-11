@@ -1,5 +1,19 @@
 # Layered Raster Map Contract
 
+## Contents
+
+- Layer Types
+- Base Map Prompt Pattern
+- Prop Generation
+- Dressed Reference Pass
+- One-By-One Prop Prompt Pattern
+- Prop Metadata
+- Render Order
+- Collision Metadata
+- Preview Composition
+- QA Checklist
+- Anti-Patterns
+
 Use this contract for hand-painted or generated 2D RPG scenes, monster-taming exploration maps, shrine/town/dungeon maps, and any top-down scene where actors must interact with props.
 
 ## Layer Types

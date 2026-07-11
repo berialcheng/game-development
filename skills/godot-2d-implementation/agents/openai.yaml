@@ -1,4 +1,4 @@
 interface:
   display_name: "Godot 2D Implementation"
   short_description: "Implement and validate Godot 4 2D production phases"
-  default_prompt: "Use $godot-2d-implementation to implement the current Godot 2D phase, route new visual sprites/maps through $generate2dsprite or $generate2dmap when asset generation is needed, update necessary docs, run validation, and report changed files, risks, and next iteration suggestions."
+  default_prompt: "Use $godot-2d-implementation to implement this scoped Godot 4 2D change, run risk-appropriate validation, and report changed files, evidence, and remaining risks."

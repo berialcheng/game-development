@@ -7,10 +7,14 @@ This directory is the install surface for the repository. Each child directory i
 | Skill | Path | Role |
 | --- | --- | --- |
 | `game-reference-research` | `skills/game-reference-research` | Research reference games, Steam pages, media, community feedback, UX patterns, mechanics, and production implications. |
-| `game-production-orchestrator` | `skills/game-production-orchestrator` | Coordinate iterative game production: docs, phase plans, handoffs, review, playtest feedback, validation, and milestone output. |
-| `godot-2d-implementation` | `skills/godot-2d-implementation` | Implement and validate scoped Godot 4 2D phases, including scenes, scripts, UI, gameplay, sprites, tests, screenshots, and manifests. |
-| `generate2dsprite` | `skills/generate2dsprite` | Generate and postprocess 2D sprites, animation sheets, map props, FX, projectiles, transparent frames, and GIF previews with built-in image generation plus local QC. |
-| `generate2dmap` | `skills/generate2dmap` | Generate and revise 2D maps, tilemaps, layered raster maps, parallax stages, prop packs, collision metadata, and map previews with built-in image generation. |
+| `game-production-orchestrator` | `skills/game-production-orchestrator` | Coordinate managed multi-stage work when scope, acceptance, handoffs, playtest, promotion, or milestone decisions are needed. |
+| `godot-2d-implementation` | `skills/godot-2d-implementation` | Implement concrete scoped Godot 4 2D changes with risk-appropriate tests and captures. |
+| `generate2dsprite` | `skills/generate2dsprite` | Generate sprites, animation sheets, transparent props, FX, portraits, and cutout-character parts with deterministic cleanup and QC. |
+| `generate2dmap` | `skills/generate2dmap` | Generate the lightest fitting 2D map bundle with visual layers, map-local objects, placement, collision, scene hooks, and preview. |
+
+## Routing
+
+Standalone asset work goes directly to `generate2dmap` or `generate2dsprite`. Scoped Godot changes go directly to `godot-2d-implementation`. Use `game-production-orchestrator` only for managed multi-stage work, and use research only when an external decision needs evidence.
 
 ## Installation Paths
 
@@ -35,5 +39,5 @@ Replace `<owner>/<repo>` with the published GitHub repository.
 ## Maintenance
 
 - Keep this catalog and `../skill-repo.json` in sync.
-- Validate changed skills with `quick_validate.py`.
+- Run `..\tools\validate-skill-repo.ps1`; use `quick_validate.py` only to isolate one structural failure.
 - Do not add README files inside individual skill folders.

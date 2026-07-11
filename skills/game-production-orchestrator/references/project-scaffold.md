@@ -1,173 +1,68 @@
 # Project Scaffold
 
-Use this reference when setting up a game project so Codex can work predictably.
+Use this reference only when a managed project lacks a usable equivalent. Do not migrate a healthy project to match suggested paths.
 
-## Recommended Files
+## Inspect First
+
+Find existing:
+
+- `AGENTS.md` or project rules
+- vision/design/current-work docs
+- engine project and entry scene
+- tests, smoke, capture, or playtest commands
+- asset source/runtime/final boundaries
+- version-control and rollback practice
+
+Map these to the required roles before creating files.
+
+## Minimal Managed Shape
 
 ```text
 AGENTS.md
-docs/
-  vision/
-    game_vision.md
-    target_player.md
-    design_pillars.md
-  design/
-    GDD.md
-    core_loop.md
-    combat.md
-    progression.md
-    ui.md
-    art_direction.md
-    effects.md
-    test_matrix.md
-  working/
-    ux_principles.md
-    ui_flow_inventory.md
-    sprite_style_bible.md
-    implementation.md
-    implementation_details.md
-    balance_notes.md
-  evidence/
-    playtest_log.md
-    ux_review_reports.md
-    validation_reports.md
-    screenshots_index.md
-    code_review.md
-  output/
-    milestone_summary.md
-    build_manifest.md
-    release_notes.md
-    final_asset_register.md
-  iteration_log.md
-  ai_asset_register.md
-assets/
-  raw/
-  generated_placeholders/
-  runtime_candidates/
-  final/
-  atlases/
-tests/
+project/engine files
+docs/vision.md
+docs/current.md
 ```
 
-For small projects, a flat `docs/` directory is acceptable. Preserve the four document roles even if folders are flattened.
+Use equivalent names already present.
 
-## Document Layers
+### `AGENTS.md`
 
-Vision docs:
+Record only operational facts that future agents must execute correctly:
 
-- Decide direction and should not change casually.
-- Examples: game vision, target player, design pillars.
+- engine/tool paths and versions when important
+- startup, focused validation, capture, and full smoke commands
+- timeout/watchdog requirements
+- forbidden generated/cache/final paths
+- project-specific done criteria
 
-Design docs:
+Keep command catalogs or complex mode details in project scripts/config when the list becomes hard to scan.
 
-- Per-system design intent that translates vision into concrete systems.
-- Examples: GDD, core loop, combat, progression, UI design, art direction, effects rules, test matrix.
-- Lives in `docs/design/` as small files per system rather than one giant GDD.
+### Vision
 
-Working docs:
+Keep player-facing purpose, audience, core loop, differentiators, non-goals, and high-level art/UX intent. Avoid implementation logs.
 
-- Current iterating design and implementation context.
-- Examples: UX principles, UI flow inventory, sprite style bible, implementation roadmap/details, balance notes.
+### Current Work
 
-Evidence docs:
+Keep the active outcome, scope, acceptance, relevant files/docs, validation level, stop condition, current decision, and next step. Replace stale state instead of appending every command run.
 
-- Records of what happened and what was observed.
-- Examples: playtest logs, UX reviews, validation reports, screenshots index, code review notes.
+## Optional Files
 
-Output docs:
+Create only when the project needs them:
 
-- Milestone/release packaging.
-- Examples: milestone summary, build manifest, release notes, final asset register.
+- `docs/decisions.md`: durable choices that future work could misunderstand.
+- `docs/asset-lifecycle.md`: project-specific source/candidate/final contract.
+- `docs/evidence/`: current milestone or regression evidence.
+- Detailed UX/art/data docs: only when several features share the same rules.
 
-## File Roles
+## Ownership
 
-`AGENTS.md`:
+- Project rules and commands -> `AGENTS.md`.
+- Player intent and design constraints -> vision/design/current docs.
+- Repeatable checks -> tests or automation.
+- Generated run output -> evidence/generated paths, not hand-maintained narrative docs.
+- Cross-project workflow -> shared skill references.
 
-- Short project rules for Codex.
-- Engine version, forbidden paths, validation commands, review checklist, asset rules.
-- Keep under about 120 lines unless the project genuinely needs more.
+## Done Criteria
 
-`game_vision.md`:
-
-- Genre, target player, emotional promise, core loop, session length, platform constraints.
-
-`ux_principles.md`:
-
-- Player clarity rules, feedback rules, menu depth, input support, accessibility goals.
-- Examples: "player knows current goal within 1 second", "damage has visual and audio feedback", "settings are reachable from pause".
-
-`ui_flow_inventory.md`:
-
-- Every screen/panel, enter path, exit path, empty state, error state, pause behavior, focus/navigation support, risk.
-
-`sprite_style_bible.md`:
-
-- Resolution, camera, frame sizes, pivot, padding, outline, palette, animation names/frame counts, naming, atlas grouping, restrictions.
-
-`implementation.md`:
-
-- High-level phases only.
-- Do not mix every detailed task into this file.
-- Treat it as a roadmap, not the current work order.
-
-`implementation_details.md`:
-
-- Current phase scope, tasks, acceptance criteria, test commands, screenshots needed, stop condition.
-- Keep only the active/current phase here so Codex does not accidentally execute the whole roadmap.
-
-`playtest_log.md`:
-
-- Session observations, quotes, metrics, input device, build, issues, next hypotheses.
-
-`ai_asset_register.md`:
-
-- Date, tool/model if known, prompt/source, generated file path, intended use, placeholder/final status, human review status, rights/disclosure notes.
-
-`iteration_log.md`:
-
-- Why a feature changed, what hypothesis was tested, what evidence was produced, what decision was made, and what comes next.
-
-## AGENTS.md Template
-
-```md
-# AGENTS.md
-
-## Project
-This is a game project. Prioritize readable, testable, maintainable player-facing changes.
-
-## Engine
-- Engine: Godot 4.x / Unity / custom.
-- Do not change engine version or project settings unless explicitly asked.
-- Keep UI logic separate from gameplay logic where practical.
-- Keep content data separate from code when possible.
-
-## UX Rules
-- Every player action must produce clear feedback.
-- Menus must support keyboard/controller navigation when the project supports those inputs.
-- Error, empty, loading, disabled, pause, and game-over states must be handled.
-- Do not add new UI screens without updating `docs/working/ui_flow_inventory.md`.
-
-## Sprite / Asset Rules
-- Never overwrite `assets/final`.
-- AI-generated or placeholder art must start in `assets/generated_placeholders/<asset_id-or-run_id>` with an `asset-manifest.json`.
-- Only manifest entries marked `accepted_for_runtime` may be copied into `assets/runtime_candidates` or project runtime folders.
-- Update `docs/ai_asset_register.md` for generated assets and link the manifest.
-- Maintain consistent frame size, pivot, padding, naming, and atlas grouping.
-- Do not imitate a named living artist or use unlicensed references.
-
-## Implementation Rules
-- Work one phase at a time.
-- Before editing, summarize scope and likely files.
-- After editing, report changed files, assumptions, validation, and risks.
-- Add or update tests when behavior changes.
-- Do not make broad architecture changes without explicit approval.
-
-## Review Checklist
-- Gameplay regression
-- UI state bugs
-- Input/navigation issues
-- Accessibility issues
-- Asset import mistakes
-- Performance risks
-- Unverified assumptions
-```
+A scaffold is useful when another agent can identify the current outcome, edit the correct area, run the right validation, avoid forbidden paths, and report remaining risks without inventing a parallel process.

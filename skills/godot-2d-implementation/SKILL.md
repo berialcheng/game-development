@@ -1,190 +1,125 @@
 ---
 name: godot-2d-implementation
-description: "Godot 4 2D implementation and validation workflow. Use when executing a defined production phase in a Godot project, including scenes, scripts, UI, gameplay, effects, Aseprite/sprite import, tests, screenshots, manifests, and next-iteration reports."
+description: "Implement and validate scoped Godot 4 2D changes, including scenes, scripts, UI, gameplay, effects, data, imported assets, tests, and captures. Use for concrete project changes with a testable outcome; escalate broad or cross-system work to the production orchestrator."
 ---
 
-# Godot 2D Game Development
+# Godot 4 2D Implementation
 
 ## Purpose
 
-Use this skill to make Godot 4 2D game changes that are playable, scoped, readable in motion, and verifiable. Keep it lightweight: extract useful workflows from external game-development skills, but do not import large multi-agent studio systems unless the repository already has the validation discipline to support them.
+Make scoped Godot 4 2D changes that are playable, readable, and verified in proportion to their risk. Prefer the target project's structure and commands over generic templates.
 
 ## Priority Order
 
-When instructions conflict, apply this order:
-
 1. User request.
-2. Target Godot project's `AGENTS.md` (project-specific rules, commands, forbidden paths).
-3. Project design docs and test matrix.
-4. This skill.
-5. External repositories and general Godot advice.
+2. Target project's `AGENTS.md`.
+3. Current project design/state docs and test contracts.
+4. This skill and its conditional references.
+5. External repositories or general Godot advice.
 
-`AGENTS.md` here refers to the target Godot project's file, not this skill repository's `AGENTS.md` (which governs skill maintenance, not in-project work).
+`AGENTS.md` here means the target Godot project's file, not this skill repository's maintenance file.
 
-If the target Godot project has no `AGENTS.md`, create or propose one only when it would capture commands, forbidden paths, validation rules, or repeated project-specific mistakes.
+## Entry Gate
 
-## Phase Mode
+- **Scoped task**: the requested outcome, affected area, and useful validation are clear. Implement directly; a formal production phase is not required.
+- **Broad or ambiguous task**: the work spans systems, changes product/UX/art direction, or has no testable outcome. Use `$game-production-orchestrator` first to define scope, acceptance, and stop condition.
+- **Asset-only task**: produce the visual asset with `$generate2dmap` or `$generate2dsprite`, then return here only when engine integration is requested.
 
-Identify the project phase before choosing validation strictness:
+Do not expand a local fix into a production-planning cycle.
 
-- Prototype: move quickly, but mark disposable code and avoid pretending exploratory work is production architecture.
-- Vertical slice: prove one core loop, one HUD path, one enemy/reward family, and one deterministic validation scenario.
-- Production: require tests, screenshots, manifests, or QA gates for new gameplay, UI, asset, or effect changes.
+## Validation Level
 
-If the phase is unclear, assume vertical slice for new game features.
+Choose the cheapest level that can catch the likely failure:
+
+- `fast`: startup/parse/data-load or focused logic check for local internal changes.
+- `focused`: fast checks plus one deterministic scenario or relevant capture for gameplay, UI, asset, camera, or VFX changes.
+- `full`: project smoke/regression, representative captures/manifests, and milestone evidence for broad integration or release work.
+
+Read `references/validation.md` for detailed checks, watchdog policy, rendered evidence, run metrics, and retention guidance.
 
 ## Workflow
 
 1. Read local context.
-   - Find `project.godot`, `AGENTS.md`, `docs/design/`, scenes, scripts, data, assets, tests, and automation commands.
-   - Prefer current project structure over generic templates.
-   - Read the relevant design slice before changing behavior.
-   - For production-loop projects, also read `docs/working/implementation_details.md`, `docs/working/ux_principles.md`, `docs/working/ui_flow_inventory.md` for UI work, and `docs/working/sprite_style_bible.md` for asset work when present.
+   - Find `project.godot`, target `AGENTS.md`, relevant scenes/scripts/data/assets, current design/state docs, and documented validation commands.
+   - Read only the design slice and references relevant to the requested change.
 
-2. Classify the task and load only the needed reference.
-   - Gameplay/system/UI/data: `references/implementation.md`
-   - Effects/camera/audio/juice/performance budget: `references/effects-management.md`
-   - Aseprite/pixel-art/source asset pipeline: `references/aseprite-art-pipeline.md`
-   - Tests/screenshots/CI/unattended checks: `references/validation-layers.md`
-   - Playtest metrics, structured logs, run manifests, regression evidence: `references/playtest-observability.md`
-   - GDD/core loop/scope/design critique: `references/game-design-audit.md`
-   - Common task flows: `references/task-templates.md`
-   - External skill or repo adoption: `references/selective-adoption.md`
+2. Classify the task.
+   - Gameplay/system/UI/data: `references/implementation.md`.
+   - Effects/camera/audio/juice/performance: `references/effects-management.md`.
+   - Aseprite/pixel-art source pipeline: `references/aseprite-art-pipeline.md`.
+   - Cutout, paper-doll, skeletal, or Spine-compatible character integration: `references/cutout-character-validation.md`.
+   - GDD/core loop/scope critique: `references/game-design-audit.md`.
+   - Unfamiliar common task flow: use the common task patterns in `references/implementation.md`.
+   - External workflow adoption: `references/selective-adoption.md`.
 
-3. Route generated visual assets before Godot import.
-   - If the task requires new or revised character sprites, NPCs, enemies, animation sheets, spells, projectiles, impacts, props, transparent frames, or GIF previews, invoke `$generate2dsprite` first and then import/validate the accepted outputs in Godot.
-   - If the task requires new or revised maps, levels, rooms, tilemaps, parallax backgrounds, layered raster scenes, prop packs, collision zones, walkable areas, or map previews, invoke `$generate2dmap` first and then wire the accepted outputs into Godot scenes, resources, collision, and metadata.
-   - Use both skills when a playable phase needs map art plus actor/prop/FX assets. `$generate2dmap` owns map/scene assets and `$generate2dsprite` owns actors, animation sheets, props, projectiles, impacts, and FX.
-   - Keep this skill responsible for Godot integration after asset generation: import settings, SpriteFrames, TileMap or scene data, collision, rendering order, deterministic screenshots, manifests, and runtime validation.
-   - Consume `asset-manifest.json` when generated assets come from a managed bundle. Import only entries marked `accepted_for_runtime`; leave raw outputs, prompts, reference mockups, GIFs, and QA previews out of runtime scenes.
-   - Keep generated bundle `source/` and `preview/` folders behind `.gdignore` or outside Godot import paths when bulk import would create noise.
-   - Do not bypass the asset skills with code-drawn art when the user asks for real visual assets. Use procedural placeholders only when explicitly requested or when validation scaffolding needs throwaway fixtures.
+3. Route new visual assets.
+   - Use `$generate2dsprite` for new/revised actors, animation sheets, transparent props, FX, projectiles, portraits, or cutout-character parts.
+   - Use `$generate2dmap` for maps, levels, tilemaps, layered/parallax scenes, map-local static props, placement, collision plans, zones, or previews.
+   - Keep this skill responsible for imports, engine resources, scene wiring, runtime data, tests, and captures.
+   - In a managed project, import only assets explicitly accepted by the target project's asset contract; keep source/reference/preview bundles out of runtime imports.
 
-4. Convert intent into an implementation contract.
-   - Define the player-facing outcome.
-   - Identify systems, scenes, scripts, data, assets, and effects touched.
-   - Name the likely failure mode.
-   - Choose the minimum validation artifact before editing.
+4. Define a small implementation contract.
+   - State player-facing outcome, in/out scope, likely failure, validation level, and required evidence.
+   - Report contradictions in current docs or asset state before broad changes; do not silently decide product, UX, or art direction.
 
 5. Make the smallest coherent change.
-   - Keep scene/script/data ownership boundaries intact.
-   - Put tuning values in JSON, Resources, or existing data tables when available.
-   - Do not rewrite unrelated architecture to make a local feature easier.
-   - Do not treat AI-generated art candidates as final source assets.
+   - Preserve scene/script/data ownership boundaries and existing architecture.
+   - Put tunable values in the project's data/resources when appropriate.
+   - Do not rewrite unrelated systems to make a local feature easier.
 
-6. Validate against the minimum matrix.
-   - Always run the repository's documented command first.
-   - Prefer the target project's `AGENTS.md` watchdog/capture wrapper for Godot smoke, script, and screenshot runs; do not launch Godot GUI, bare long-running Godot commands, or desktop screenshot commands that can hang unattended.
-   - On Windows, run Godot validation through a timeout wrapper that can kill native crash dialogs and `WerFault` instead of waiting forever.
-   - If the target project has no wrapper, copy `assets/godot-watchdog/run_godot_with_watchdog.ps1` into the project and register concrete commands in the project `AGENTS.md`.
-   - Treat Godot `ERROR:` and `SCRIPT ERROR:` output as failed validation even when the process exits `0`.
-   - If a required tool is missing, run the strongest available lower-level check and report the missing validation infrastructure.
+6. Validate the likely failure.
+   - Run the repository's documented command first.
+   - Use startup/parse checks for engine-load risk, focused scenarios for logic/behavior risk, and captures for visible risk.
+   - Treat headless startup as insufficient evidence for UI, animation, VFX, camera, or other rendered behavior.
+   - Report missing validation infrastructure rather than pretending a weaker check proves more.
 
-7. Report outcome.
-   - State what changed, what validation ran, what remains unverified, and whether the gap belongs in `AGENTS.md`, `docs/design/`, a test, or this skill.
+7. Report the outcome.
+   - State changed files, validation and evidence, remaining risks, and the next useful step only when one remains.
 
-## Minimum Verification Matrix
+## Minimum Verification
 
-| Change type | Minimum verification |
+| Change | Minimum useful evidence |
 | --- | --- |
-| GDScript, resource, scene, or project setting | Headless startup or the repository's equivalent smoke command |
-| Data or balance | Data/schema load check plus one deterministic fixture when tests exist |
-| Gameplay behavior | Logic test, deterministic scenario, and run metrics when behavior changes player outcomes |
-| UI layout | Screenshot or automation capture for at least one target state |
-| VFX, camera, damage feedback, or audio cue | Deterministic combat/showcase capture or manifest, not only headless startup |
-| Performance or spawn-density change | Run manifest with counts, duration, FPS/frame-time proxy if available, and object/effect totals |
-| Aseprite export | PNG/JSON existence, frame/tag validation, and Godot import/load check |
-| CI/export | Local equivalent command must pass before adding CI/export config |
-| Design-only change | Updated design slice with implementation and validation implications |
-| Skill/rule change | `quick_validate.py` passes for the skill folder |
+| Script, scene, resource, or setting | Project smoke/startup or equivalent load check. |
+| Data or balance | Parse/load plus a focused fixture or deterministic scenario when behavior changes. |
+| Gameplay behavior | Focused logic/scenario check; add metrics only when outcomes need them. |
+| UI layout | One relevant non-headless capture at a target state. |
+| Animation, VFX, camera, or feedback | Short deterministic rendered sequence, capture, or manifest. |
+| Imported visual asset | File/alpha/frame or part checks plus Godot import/load and one gameplay-scale view. |
+| Broad integration or release | Full documented smoke/regression and representative evidence. |
 
-## Project Shape
+## Safe Godot Execution
 
-Prefer this layout only when the repository does not already have a clear equivalent:
-
-```text
-game/
-  project.godot
-  scenes/
-  scripts/
-  data/
-  assets/
-  themes/
-  docs/design/
-  tests/
-  screenshot/automation/
-```
-
-For new Godot 2D repositories, create or adapt `AGENTS.md` with Godot paths, headless command, test command, screenshot command, forbidden generated paths, and done criteria.
-
-## Input Contract
-
-Before implementation, identify:
-
-- Current phase and iteration state.
-- Design docs read.
-- Acceptance criteria.
-- In-scope and out-of-scope systems.
-- Required validation: startup, logic test, deterministic scenario, screenshot, manifest, Aseprite export, or playtest note.
-- Asset manifests to consume and which entries are `accepted_for_runtime`.
-- Docs that may need updates.
-
-If the docs are missing, stale, or contradictory, report the conflict before broad changes. Do not silently resolve product/UX/art direction conflicts in code.
-
-If the current phase, acceptance criteria, or in/out scope are not defined, stop and invoke `$game-production-orchestrator` to define the phase before implementing. Do not begin broad Godot work without a decided phase and acceptance.
+- Prefer the target project's watchdog/capture wrapper for unattended Godot runs.
+- On Windows, use a timeout wrapper that can terminate same-run crash dialogs and `WerFault`.
+- Treat `ERROR:` and `SCRIPT ERROR:` as failures unless the project explicitly classifies a known environment-only diagnostic; report that distinction.
+- Use non-headless rendering for screenshots when headless uses dummy rendering or returns empty viewport textures.
+- If no wrapper exists and unattended runs can hang, copy `assets/godot-watchdog/run_godot_with_watchdog.ps1` into the target project and record concrete commands in its `AGENTS.md`.
+- Keep concrete executables, modes, timeouts, and output paths in the target project, not this shared skill.
 
 ## Guardrails
 
-- Use GDScript for gameplay unless the project already uses C# or another language.
-- Prefer typed GDScript signatures and exported variables for designer-tunable values.
-- Use deterministic seed support for gameplay, screenshots, and tests.
-- Use non-headless rendering for screenshot capture when headless uses dummy rendering or returns empty viewport textures.
-- Do not let direct Godot process launches hang unattended after a native crash popup; use a watchdog wrapper for smoke, script, and screenshot runs.
-- Keep concrete wrapper command names, modes, timeouts, and output directories in the target project's `AGENTS.md`; keep this skill limited to cross-project validation policy.
-- Use Godot Containers and Theme resources for UI rather than absolute-positioned panels.
-- Keep `.aseprite` files as source assets and exported PNG/JSON as runtime assets.
-- Put AI image candidates in generated or ignored folders until curated.
-- Do not import generated source bundles directly; consume accepted runtime candidates from manifest entries.
-- Do not let Codex judge final subjective art quality without a human-approved baseline.
-- Avoid importing external skills wholesale. Extract workflows, commands, templates, QA gates, and failure checks instead.
+- Use the project's existing language; default to typed GDScript only for new GDScript projects or files.
+- Prefer deterministic seeds for reproducible gameplay tests and captures.
+- Use Godot Containers and Theme resources for adaptable UI instead of unnecessary absolute positioning.
+- Keep source art and runtime exports distinct; do not treat generated candidates as final art.
+- Do not use code-drawn art when the user requested real visual assets.
+- Do not let manifest counters stand in for actual pixel review when the question is visual.
+- Do not add CI/export configuration before its local equivalent passes.
 
-## Related Skills
+## Durable Learning
 
-- Use `$game-production-orchestrator` first when the phase, acceptance criteria, or asset scope is unclear.
-- Use `$generate2dmap` for generated or revised maps, levels, tilemaps, parallax stages, layered raster scenes, prop packs, collision-zone planning, and map previews.
-- Use `$generate2dsprite` for generated or revised sprites, animation sheets, actors, NPCs, enemies, props, spells, projectiles, impacts, FX, transparent frames, and GIF previews.
-- Use this skill after asset generation for Godot import settings, scene wiring, runtime data, tests, screenshots, manifests, and engine validation.
-
-## Learning Loop
-
-After repeated mistakes or useful discoveries:
-
-- Put project-specific commands, paths, and forbidden edits in `AGENTS.md`.
-- Put player-facing intent and design constraints in `docs/design/`.
-- Put repeatable validation in tests, screenshot scenarios, or CI.
-- Put run metrics, counters, and screenshot manifests in automation outputs.
-- Put cross-project durable workflow rules in this skill.
-- Turn any recurring failure into either a rule, a fixture, a screenshot scenario, or a checklist item.
+- Put project-specific commands and forbidden edits in target `AGENTS.md`.
+- Put player-facing intent in project design/current-state docs.
+- Put repeated checks in tests or automation.
+- Put cross-project rules in this skill only after they prevent a recurring or high-cost failure.
 
 ## Output Contract
 
-After implementation, report:
+Report:
 
-- Changed code files.
-- Changed scene/resource files.
-- Changed docs.
-- Assets added or modified, including manifest paths and lifecycle states.
-- Tests/checks run and notable command output.
-- Screenshot, manifest, or manual validation result.
-- Known risks and missing validation.
-- Suggested next iteration.
-- Phase state: prototype, playtestable, candidate, approved, final, or needs another iteration.
-
-## Sample Prompts
-
-```text
-Use $godot-2d-implementation to add a data-driven enemy with one deterministic combat screenshot.
-Use $generate2dsprite to create a side-view warrior idle/run sheet, then use $godot-2d-implementation to import it and verify SpriteFrames.
-Use $godot-2d-implementation to review a GDD slice and produce implementation/test implications.
-Use $generate2dmap to create a side-scroller stage background and object plan, then use $godot-2d-implementation to wire the scene and validate runtime collision.
-```
+- Changed code, scene/resource, data, asset, and doc files.
+- Validation level, commands/checks, and notable evidence.
+- Imported asset contract/state when relevant.
+- What remains unverified and why.
+- Known risks and whether broader planning or human visual/product review is still required.

@@ -1,12 +1,14 @@
 # Game Development Skills
 
-Reusable agent skills for game reference research, iterative production planning, and Godot 4 2D implementation.
+Reusable agent skills for game research, production planning, image-generated 2D assets, and scoped Godot 4 2D implementation.
 
 This repository is a skill collection. The installable surface is:
 
 ```text
 skills/game-reference-research
 skills/game-production-orchestrator
+skills/generate2dmap
+skills/generate2dsprite
 skills/godot-2d-implementation
 ```
 
@@ -15,16 +17,19 @@ skills/godot-2d-implementation
 | Skill | Role | Use When |
 | --- | --- | --- |
 | [`game-reference-research`](skills/game-reference-research/SKILL.md) | Researcher | Research Steam pages, screenshots, videos, community feedback, mechanics, UX patterns, visual references, and production handoff notes. |
-| [`game-production-orchestrator`](skills/game-production-orchestrator/SKILL.md) | Producer / iteration manager | Plan iterations, maintain living docs, define phases, coordinate handoffs, process playtest feedback, govern AI assets, and package milestone outputs. |
-| [`godot-2d-implementation`](skills/godot-2d-implementation/SKILL.md) | Godot implementer | Execute scoped Godot 4 2D phases: scenes, scripts, UI, gameplay, effects, Aseprite/sprite imports, tests, screenshots, manifests, and next-iteration reports. |
+| [`game-production-orchestrator`](skills/game-production-orchestrator/SKILL.md) | Producer / iteration manager | Coordinate managed, multi-stage work when scope, acceptance, handoffs, asset promotion, playtest, or milestone decisions are needed. |
+| [`generate2dmap`](skills/generate2dmap/SKILL.md) | 2D map producer | Create the lightest playable map bundle with only the needed visual layers, object data, collision, scene hooks, and preview. |
+| [`generate2dsprite`](skills/generate2dsprite/SKILL.md) | 2D asset producer | Create sprites, animation sheets, transparent props, FX, portraits, and cutout-character parts with deterministic cleanup and QC. |
+| [`godot-2d-implementation`](skills/godot-2d-implementation/SKILL.md) | Godot implementer | Execute scoped Godot 4 2D changes: scenes, scripts, UI, gameplay, effects, imported assets, tests, and captures. |
 
 Recommended workflow:
 
 ```text
-game-reference-research
--> game-production-orchestrator
+game-reference-research (only when external evidence is needed)
+-> game-production-orchestrator (only for managed, multi-stage work)
+-> generate2dmap and/or generate2dsprite (only for needed visual assets)
 -> godot-2d-implementation
--> game-production-orchestrator
+-> game-production-orchestrator milestone review
 ```
 
 ## Install With `npx skills`
@@ -103,11 +108,21 @@ docs/archive/2026-06-14-skill-review-v1.md
 
 ## Validate
 
-Validate changed skills before publishing:
+Validate the repository before publishing:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\validate-skill-repo.ps1
+```
+
+The validator runs every skill's structural check and also audits catalogs, registry metadata, relative links, UI metadata budgets, Python syntax, long-reference contents, and skill line budgets. Use `-CheckInstalled` after syncing user-level skills.
+
+Individual structural commands remain available when isolating one failure:
 
 ```powershell
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\game-reference-research
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\game-production-orchestrator
+python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dmap
+python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dsprite
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\godot-2d-implementation
 ```
 

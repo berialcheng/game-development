@@ -1,5 +1,16 @@
 # Prop Pack Contract
 
+## Contents
+
+- When To Use
+- Asset Strategy Gate
+- Sheet Size Selection
+- Prompt Pattern
+- Platform Strip Prompt Pattern
+- Extraction
+- Placement
+- QC Rules
+
 Prop packs batch multiple small static map props into one generated sheet, then extract each cell into a transparent prop PNG. Square prop packs are for compact props only, not for floors, platforms, bridges, walls, or other wide/collision-critical scene objects.
 
 Use prop packs to reduce repeated image-generation calls and prompt overhead. They trade per-prop control for speed, so use them only when the props can share one style, scale, perspective, and quality bar.

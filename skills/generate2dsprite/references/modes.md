@@ -1,5 +1,16 @@
 # Modes
 
+## Contents
+
+- Asset Types
+- Actions
+- Bundle Presets
+- Sheet Presets
+- Agent-First Mapping Hints
+- Legacy Compatibility
+- Processor Defaults
+- Output Shape
+
 Use this file when the user's wording leaves room for multiple valid asset plans.
 
 ## Asset Types

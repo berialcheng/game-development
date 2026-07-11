@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Production Orchestrator"
   short_description: "Plan game iterations and govern generated assets"
-  default_prompt: "Use $game-production-orchestrator to plan the next game iteration, define phase scope and asset briefs, route needed visual work through $generate2dmap or $generate2dsprite, apply asset lifecycle governance, update docs, and prepare validation/playtest outputs."
+  default_prompt: "Use $game-production-orchestrator to define the next managed-game scope, acceptance criteria, required handoffs, validation level, and stop condition."

@@ -23,28 +23,28 @@
       "path": "skills/game-production-orchestrator",
       "display_name": "Game Production Orchestrator",
       "role": "Producer / iteration manager",
-      "description": "Iterative game production orchestrator. Use when planning or improving a game through research handoff, living design docs, phased implementation, UX/sprite review, playtest feedback, validation, documentation updates, AI asset governance, code review, and milestone output."
+      "description": "Coordinate multi-stage game production when scope, acceptance criteria, cross-skill handoffs, asset promotion, playtest iteration, or milestone packaging must be decided. Use for planning and reviewing managed game work; do not use for an already scoped implementation or standalone asset request."
     },
     {
       "name": "godot-2d-implementation",
       "path": "skills/godot-2d-implementation",
       "display_name": "Godot 2D Implementation",
       "role": "Godot implementer",
-      "description": "Godot 4 2D implementation and validation workflow. Use when executing a defined production phase in a Godot project, including scenes, scripts, UI, gameplay, effects, Aseprite/sprite import, tests, screenshots, manifests, and next-iteration reports."
+      "description": "Implement and validate scoped Godot 4 2D changes, including scenes, scripts, UI, gameplay, effects, data, imported assets, tests, and captures. Use for concrete project changes with a testable outcome; escalate broad or cross-system work to the production orchestrator."
     },
     {
       "name": "generate2dsprite",
       "path": "skills/generate2dsprite",
       "display_name": "Generate 2D Sprite",
       "role": "2D sprite asset producer",
-      "description": "Generate and postprocess general 2D game assets and animation sheets: pixel-art sprites, clean HD map props, creatures, characters, NPCs, spells, projectiles, impacts, props, summons, and transparent GIF exports. Use when Codex should infer the asset plan from a natural-language request, match a reference or map art style, call built-in image_gen for solid-magenta raw sheets, and use the local processor only for chroma-key cleanup, frame extraction, alignment, QC, and transparent exports."
+      "description": "Generate and postprocess 2D game sprites, animation sheets, transparent props, FX, projectiles, portraits, and cutout or paper-doll character parts. Use when Codex needs image-generated visual assets plus deterministic cleanup, frame extraction, alignment, QC, or preview exports; keep engine integration separate."
     },
     {
       "name": "generate2dmap",
       "path": "skills/generate2dmap",
       "display_name": "Generate 2D Map",
       "role": "2D map and level asset producer",
-      "description": "Generate and revise production-oriented 2D game maps with built-in image generation as the default visual asset source, choosing a visual model, runtime object model, collision model, art direction, and engine/export target. Use when Codex needs to create or integrate RPG maps, monster-taming maps, tactical arenas, battle backgrounds, side-scroller/parallax scenes, tilemaps, layered raster maps, clean HD hand-painted maps, pixel-inspired maps, prop packs, collision zones, walkable areas, or map previews."
+      "description": "Generate and revise 2D game maps, stages, tilemaps, layered scenes, parallax backgrounds, collision plans, object placement, and map previews. Use when Codex needs map or level structure plus the visual and runtime data required to make it playable; use the lightest fitting pipeline, and do not use it for actor or animation assets."
     }
   ],
   "recommended_order": [
@@ -55,7 +55,7 @@
     "godot-2d-implementation",
     "game-production-orchestrator"
   ],
-  "recommended_order_note": "Branching first pass: research -> orchestrator defines phase, asset briefs, lifecycle policy, and acceptance gates -> run generate2dmap and/or generate2dsprite only for needed visual assets -> godot-2d-implementation imports accepted runtime candidates and validates -> orchestrator reviews evidence and plans the next iteration.",
+  "recommended_order_note": "Routing is conditional: standalone asset work goes directly to generate2dmap or generate2dsprite, scoped Godot work goes directly to godot-2d-implementation, and managed multi-stage work uses research only when needed before orchestrator handoffs, implementation, and milestone review.",
   "non_installable_content": [
     "demo/",
     "godot-2d-agent-template/",

@@ -1,80 +1,120 @@
-# Implementation Reference
+# Implementation
 
-Use this reference for Godot 4 2D scene, script, data, and UI implementation.
+## Contents
 
-## Read Before Editing
+- Before Editing
+- Small Contract
+- Scene And Script Ownership
+- Data And Gameplay
+- UI
+- Effects, Camera, And Audio
+- Asset Integration
+- Common Task Patterns
+- Architecture Limits
+- Completion
 
-- `project.godot`
-- Relevant `.tscn`, `.gd`, `.tres`, `.json`, `.cfg`, and autoload files
-- Existing `AGENTS.md`
-- Existing tests, automation, screenshot scripts, and design slices
+Use this reference for scoped Godot 4 2D scene, script, data, UI, gameplay, or asset-integration work.
 
-## Implementation Contract
+## Before Editing
 
-Before changing behavior, write or infer:
+Read the target `AGENTS.md`, `project.godot`, affected scene/script/data/resource files, relevant current design state, and existing validation commands. Start from the requested player outcome, not a preferred architecture.
 
-- Player-facing outcome: what the player should notice or be able to do.
-- Systems touched: scenes, scripts, autoloads, data, UI, effects, assets.
-- Failure mode: what can break or feel wrong.
-- Validation artifact: command, test, screenshot, manifest, or documented missing gap.
+## Small Contract
 
-Do not start with architecture. Start with the smallest change that can prove the outcome.
+Identify:
 
-## Scene And Script Rules
+- player-facing outcome
+- affected systems/files
+- explicit non-scope
+- likely failure
+- cheapest sufficient validation
 
-- Keep feature ownership local. A player feature should usually touch player scene/script/data before global systems.
-- Keep scene and script pairs discoverable by feature.
-- Prefer small autoloads for global state and services; do not promote helpers to singleton status by default.
-- Prefer signals for UI and system notifications.
-- Use typed GDScript where practical.
-- Be careful with globally named custom classes in brand-new projects. If parse order or class registration is uncertain, type dynamic scene/script instances as `Node`, `Node2D`, `Area2D`, or a built-in base until validation proves the global class is visible.
-- Avoid fragile type inference from untyped Dictionaries. Use explicit local types and bracket access such as `state["timer"]` for data loaded from JSON.
-- Use exported variables for tuning that should be visible in the editor.
-- Put gameplay tuning into existing data tables, Resources, or JSON before hardcoding.
-- Keep frame/time dependent logic deterministic when it affects tests or screenshot baselines.
-- Do not add, remove, or reconfigure physics/area monitoring directly inside physics query callbacks such as `body_entered`. Use `call_deferred()` or deferred setters for spawned pickups, hitboxes, and collision shape changes.
+A locally clear task does not need a new phase document.
 
-## UI Rules
+## Scene And Script Ownership
 
-- Build HUDs and menus with `Control`, Containers, Theme resources, and type variations.
-- Avoid absolute positioning unless matching an existing project pattern.
-- Check long labels, large values, pause, shop, level-up, game-over, low-health, and empty-state panels.
-- Preserve keyboard/controller focus if the project supports it.
-- For visual changes, inspect a screenshot or manifest. A `.tscn` diff alone does not prove the UI works.
-- Treat onboarding, pause, settings, save/continue, victory, failure, retry, and main-menu paths as part of the playable slice, not polish after gameplay. A demo is not complete while players can reach a state without a clear next action or recovery path.
-- First-minute guidance should name concrete player actions and examples. Prefer `Select Worker + Forest to Chop Wood` over abstract rules like `combine cards to craft`.
-- High-frequency player actions must produce visible feedback, not only a changed layout. Examples include sort, play, discard, buy, reroll, pause/resume, and enter-next-round.
-- Invalid input must explain the reason at the player's current focus point instead of failing silently. Examples include selection limits, empty plays, no discards left, unaffordable shop offers, full slots, and unaffordable rerolls.
-- Feedback text should be short, specific, and actionable. Prefer `Can't buy Blue Chip: need $3 more.` over `Invalid action.`
-- Card, roguelite, and shop screens should expose decision context in the current surface: target score, remaining hands/discards, wallet, build, slots, affordability, reward formulas, next blind target, best hand, final build, and retry path where relevant.
-- Run logs should use explicit event tags such as `RUN`, `BLIND`, `SCORE`, `DISCARD`, `SHOP`, `CLEAR`, and `ACTION`. Do not classify operation-only events such as sorting as scoring events.
-- Failure and victory overlays should explain the cause, summarize the run, and offer an immediate retry/menu path. Store the reason in state or summary data so save/load, manifests, screenshots, and tests can assert it.
+- Keep feature ownership local and scene/script pairs discoverable.
+- Use signals for UI/system notifications where they reduce direct coupling.
+- Use autoloads for genuine global state/services, not ordinary helpers.
+- Prefer existing project patterns over introducing a new framework.
+- Use explicit local types when dictionary/JSON/Variant inference is fragile.
+- Use exported values, Resources, JSON, or existing data tables for designer-tunable data.
+- Defer collision/monitoring mutations triggered inside physics callbacks.
+- Keep time/RNG deterministic when tests or captures depend on it.
 
-## Data Rules
+## Data And Gameplay
 
-- Keep balance values deterministic and easy to diff.
-- Add schema comments, validation, or fixtures when data tables grow.
-- When adding data-driven systems, include at least one tiny fixture or test case if the repository has tests.
-- Keep random rolls seedable. Do not hide important randomness inside UI or effect code.
+- Keep balance values diffable and random rolls seedable.
+- Add a small schema/load check or fixture when data contracts change.
+- Store important outcome reasons in state/summary data when UI, saves, manifests, or tests must assert them.
+- Validate through the player-equivalent path when the outcome depends on prerequisites; do not prove only the final internal function.
 
-## Runtime-Generated Assets
+## UI
 
-- If PNGs or JSON are generated by scripts during the session, do not assume Godot import cache has processed them.
-- For generated runtime textures that must load immediately, use `Image.load()` plus `ImageTexture.create_from_image()` or run the documented import step before using `load()` as a resource.
-- Validate generated assets by existence, nonzero size, expected dimensions/frame counts/tags, and a Godot load/startup check.
+- Use `Control`, Containers, Theme resources, and project focus/navigation conventions.
+- Check the states the feature actually introduces: empty, long text, large value, disabled, pause, failure, victory, retry, or gamepad focus as relevant.
+- Make high-frequency and invalid actions explain their result at the player's focus point.
+- Preserve a clear next action or recovery path.
+- Use an actual target-state capture for visible changes; a scene diff does not prove layout/readability.
+
+## Effects, Camera, And Audio
+
+- Keep gameplay truth outside effect-only nodes.
+- Define trigger, timing, priority, cleanup, and performance/readability budget.
+- Use pooling only for genuinely frequent effects.
+- Validate the rendered sequence rather than startup alone.
+
+Read `effects-management.md` when effect layering, camera/audio priority, cleanup, or budgets are material.
+
+## Asset Integration
+
+- Keep source/provenance, processed candidates, previews, and runtime files distinct.
+- For managed assets, import only candidates accepted by the target project's contract.
+- Validate dimensions/alpha/frames or semantic parts before import, then verify Godot load and gameplay-scale presentation.
+- If generated PNG/JSON must load before import metadata exists, use runtime-safe image loading or run the documented import step.
+- Keep `.aseprite` sources separate from PNG/JSON exports; read `aseprite-art-pipeline.md` for repeatable pixel-art export.
+
+## Common Task Patterns
+
+### Enemy, Weapon, Or Ability
+
+- Prefer data extension before new architecture.
+- Add only required scene/script/projectile/hitbox/effect pieces.
+- Validate logic/state plus one focused combat scenario or capture when feedback changes.
+
+### HUD Or Menu
+
+- Reuse existing themes, containers, signals, and focus rules.
+- Validate startup/load plus one affected state capture.
+
+### Balance Or Economy
+
+- Prefer data changes and preserve before/after values.
+- Validate data load and one deterministic calculation/path when available.
+
+### Character Animation Or Asset
+
+- Check frame/part contract, pivot/socket, draw order, FPS/timing, and import.
+- Review one real gameplay state; use continuous rendered evidence when motion quality is the issue.
+
+### Screenshot Scenario
+
+- Add the smallest deterministic scenario that reaches the target state.
+- Record scenario/seed, requested/saved capture state, and output path.
+- Inspect at least one produced image when the question is visual.
+
+### Regression
+
+- Reproduce the same scenario/seed before editing.
+- Patch the smallest likely cause.
+- Add a durable check only when the regression was previously invisible and likely to recur.
 
 ## Architecture Limits
 
-- Prototype code may be simple, but mark throwaway paths when they should not become production patterns.
-- Vertical-slice code should connect gameplay, HUD, feedback, and validation.
-- Production code should include tests, screenshot scenarios, or QA gates for new behavior.
+- Prototype code may be simple but should not silently become a global pattern.
+- A vertical slice should connect gameplay, UI, feedback, and one reliable validation path.
+- Broad production/release work may justify more tests and evidence; scoped prototype work does not require the full matrix.
 
-## Common Completion Checks
+## Completion
 
-```powershell
-& $GODOT --path $PROJECT --headless --quit
-```
-
-If GUT or gdUnit4 exists, run the existing test command instead of inventing a parallel test runner.
-
-When reading Godot command results, inspect stdout/stderr for `ERROR:`, `SCRIPT ERROR:`, parse errors, and resource loader errors. Godot can return exit code `0` while still reporting load/runtime errors.
+Report the changed files, validation level/checks, visible or runtime evidence, remaining uncertainty, and whether broader planning or human review is still required.
