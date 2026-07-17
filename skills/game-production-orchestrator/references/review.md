@@ -14,6 +14,7 @@ Use source context only to avoid mixing claims: first-party human feedback, synt
 | Is UI readable? | Actual target-state capture and input/navigation path. |
 | Is animation/VFX/camera convincing? | Short rendered sequence at gameplay scale. |
 | Is an asset mechanically usable? | Alpha/frame/part/import checks plus one in-engine view. |
+| Is audio mechanically and contextually usable? | Format/duration/loop/loudness QC plus intended-event playback in the gameplay mix. |
 | Is code safe to keep? | Diff, targeted tests, ownership boundaries, and rollback. |
 | Is a milestone ready? | Core smoke, representative captures/playtest, open-risk list. |
 
@@ -48,13 +49,15 @@ Do not require a separate reviewer agent for every personal-project change. A de
 
 ## Asset Review
 
-Separate:
+Separate visual and audio claims:
 
-- mechanical validity: files, alpha, dimensions, frames/parts, pivots, references, import
-- runtime validity: correct scene/state, scale, draw order, sockets/collision, animation
-- subjective decision: identity, readability, style, motion, final quality, rights
+- mechanical validity: files, alpha/audio format, dimensions/duration, frames/parts/loops, pivots, references, import
+- runtime validity: correct scene/event/state, scale or mix level, draw order or bus route, sockets/collision, animation/playback
+- subjective decision: identity, readability or semantic fit, style/timbre, motion/rhythm, final quality, similarity, rights
 
-Mechanical checks cannot answer subjective quality. Make the practical choice when direction is clear; present alternatives only when taste materially changes the project.
+Mechanical checks cannot answer subjective quality. A screenshot cannot prove audio behavior; use a runtime recording or direct listening pass. Make the practical choice when direction is clear; present alternatives only when taste materially changes the project.
+
+Synthetic playback can reveal defects and compare candidates, but it cannot satisfy `human_reviewed_final` or a human rights decision.
 
 ## Playtest Review
 

@@ -1,13 +1,14 @@
 {
   "schema_version": "1",
   "name": "game-development-skills",
-  "description": "Solo-developer-first Codex skills for fast game research, gameplay review, player-feedback synthesis, lightweight production coordination, Godot 4 2D implementation, and generated 2D assets.",
+  "description": "Solo-developer-first Codex skills for fast game research, gameplay review, player-feedback synthesis, lightweight production coordination, Godot 4 2D implementation, and generated 2D and audio assets.",
   "skills_root": "skills",
   "install_paths": [
     "skills/game-reference-research",
     "skills/synthetic-gameplay-review",
     "skills/synthesize-playtest-feedback",
     "skills/game-production-orchestrator",
+    "skills/generate-game-audio",
     "skills/godot-2d-implementation",
     "skills/generate2dsprite",
     "skills/generate2dmap"
@@ -42,6 +43,13 @@
       "description": "Coordinate game work when a solo developer needs cross-system sequencing, ambiguous scope, mixed evidence, asset promotion, or milestone/release validation. Use only when coordination adds value; route clear implementation, asset, research, review, and review-plus-small-fix tasks directly to specialists."
     },
     {
+      "name": "generate-game-audio",
+      "path": "skills/generate-game-audio",
+      "display_name": "Generate Game Audio",
+      "role": "Game audio asset producer",
+      "description": "Generate and postprocess game music, ambience, stingers, UI sounds, and gameplay sound effects with local or cloud audio models. Use when Codex needs prompt-driven audio candidates, variation banks, loopable cues, deterministic audio QC, provenance, or a managed handoff; keep engine import and runtime wiring separate."
+    },
+    {
       "name": "godot-2d-implementation",
       "path": "skills/godot-2d-implementation",
       "display_name": "Godot 2D Implementation",
@@ -68,11 +76,12 @@
     "game-production-orchestrator",
     "generate2dmap",
     "generate2dsprite",
+    "generate-game-audio",
     "godot-2d-implementation",
     "synthetic-gameplay-review",
     "synthesize-playtest-feedback"
   ],
-  "recommended_order_note": "Routing is conditional, not a required pipeline: public external evidence goes to game-reference-research, synthetic current-build review goes to synthetic-gameplay-review, supplied first-party or private human feedback goes to synthesize-playtest-feedback, and clear asset, implementation, review, or review-plus-small-fix work stays on the shortest specialist path. Use the orchestrator only when coordination adds value.",
+  "recommended_order_note": "Routing is conditional, not a required pipeline: public external evidence goes to game-reference-research, synthetic current-build review goes to synthetic-gameplay-review, supplied first-party or private human feedback goes to synthesize-playtest-feedback, clear generated music/SFX work goes to generate-game-audio, and other clear asset, implementation, review, or review-plus-small-fix work stays on the shortest specialist path. Use the orchestrator only when coordination adds value.",
   "non_installable_content": [
     "demo/",
     "godot-2d-agent-template/",

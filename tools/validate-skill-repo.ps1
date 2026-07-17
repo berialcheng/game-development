@@ -14,6 +14,7 @@ $LineBudgets = @{
     "synthetic-gameplay-review" = 130
     "synthesize-playtest-feedback" = 130
     "game-production-orchestrator" = 130
+    "generate-game-audio" = 170
     "generate2dmap" = 200
     "generate2dsprite" = 190
     "godot-2d-implementation" = 170
@@ -33,6 +34,28 @@ function Add-CheckPass([string]$Message) {
     Write-Host "PASS  $Message" -ForegroundColor Green
 }
 
+function Test-ContractFile(
+    [string]$Path,
+    [string[]]$Needles,
+    [string]$Label
+) {
+    if (-not (Test-Path $Path)) {
+        Add-CheckError "$Label contract file is missing: $Path"
+        return
+    }
+    $Text = Get-Content -Raw $Path
+    $Failed = $false
+    foreach ($Needle in $Needles) {
+        if (-not $Text.Contains($Needle)) {
+            Add-CheckError "$Label contract is missing '$Needle'"
+            $Failed = $true
+        }
+    }
+    if (-not $Failed) {
+        Add-CheckPass "$Label contract markers are present"
+    }
+}
+
 function Get-FrontmatterValue([string]$Text, [string]$Name) {
     $pattern = '(?m)^' + [regex]::Escape($Name) + ':\s*"?([^"\r\n]+)"?\s*$'
     return [regex]::Match($Text, $pattern).Groups[1].Value.Trim()
@@ -44,6 +67,55 @@ try {
         Test-Path (Join-Path $_.FullName "SKILL.md")
     } | Sort-Object Name
     $SkillNames = @($SkillDirs.Name)
+    $SkillNameSet = [System.Collections.Generic.HashSet[string]]::new(
+        [System.StringComparer]::OrdinalIgnoreCase
+    )
+    foreach ($SkillName in $SkillNames) {
+        [void]$SkillNameSet.Add($SkillName)
+    }
+
+    $GeneratedSkillArtifacts = @(Get-ChildItem $SkillsRoot -Recurse -Force -File | Where-Object {
+        $_.Name -match '[.]py[co]$' -or $_.Directory.Name -eq '__pycache__'
+    })
+    if ($GeneratedSkillArtifacts.Count -gt 0) {
+        foreach ($Artifact in $GeneratedSkillArtifacts) {
+            $Relative = $Artifact.FullName.Substring($RepoRoot.Length + 1)
+            Add-CheckError ('generated Python cache is present in the install surface: {0}' -f $Relative)
+        }
+    }
+    else {
+        Add-CheckPass 'skills/ contains no generated Python caches'
+    }
+
+    $TrackedPaths = @(& git ls-files --cached -- skills 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        Add-CheckError 'could not inspect Git tracking for the skills/ install surface'
+    }
+    else {
+        $TrackedPathSet = [System.Collections.Generic.HashSet[string]]::new(
+            [System.StringComparer]::OrdinalIgnoreCase
+        )
+        foreach ($TrackedPath in $TrackedPaths) {
+            [void]$TrackedPathSet.Add($TrackedPath.Trim().Replace('\', '/'))
+        }
+
+        $UntrackedInstallFiles = [System.Collections.Generic.List[string]]::new()
+        foreach ($InstallFile in Get-ChildItem $SkillsRoot -Recurse -Force -File) {
+            $Relative = $InstallFile.FullName.Substring($RepoRoot.Length + 1).Replace('\', '/')
+            if (-not $TrackedPathSet.Contains($Relative)) {
+                $UntrackedInstallFiles.Add($Relative)
+            }
+        }
+
+        if ($UntrackedInstallFiles.Count -gt 0) {
+            foreach ($Relative in $UntrackedInstallFiles) {
+                Add-CheckError ('install-surface file is not tracked by Git: {0}' -f $Relative)
+            }
+        }
+        else {
+            Add-CheckPass 'every skills/ install-surface file is tracked by Git'
+        }
+    }
 
     if (-not (Test-Path $QuickValidate)) {
         Add-CheckError "quick_validate.py not found at $QuickValidate"
@@ -114,6 +186,25 @@ try {
         }
 
         $OpenAIYaml = Join-Path $SkillDir.FullName "agents\openai.yaml"
+        $ReferenceRoot = Join-Path $SkillDir.FullName 'references'
+        if (Test-Path $ReferenceRoot) {
+            $OrphanReferences = [System.Collections.Generic.List[string]]::new()
+            foreach ($ReferenceFile in Get-ChildItem $ReferenceRoot -Recurse -File) {
+                $Relative = $ReferenceFile.FullName.Substring($SkillDir.FullName.Length + 1).Replace('\', '/')
+                if (-not $SkillText.Contains($Relative)) {
+                    $OrphanReferences.Add($Relative)
+                }
+            }
+            if ($OrphanReferences.Count -gt 0) {
+                foreach ($Relative in $OrphanReferences) {
+                    Add-CheckError ('{0} has an orphan reference not routed directly from SKILL.md: {1}' -f $Name, $Relative)
+                }
+            }
+            else {
+                Add-CheckPass ('{0} routes every bundled reference directly from SKILL.md' -f $Name)
+            }
+        }
+
         if (-not (Test-Path $OpenAIYaml)) {
             Add-CheckError "$Name has no agents/openai.yaml"
         }
@@ -134,6 +225,28 @@ try {
     }
 
     $MarkdownFiles = Get-ChildItem $SkillsRoot -Recurse -File -Filter "*.md"
+    $UnresolvedSkillReferences = [System.Collections.Generic.HashSet[string]]::new(
+        [System.StringComparer]::OrdinalIgnoreCase
+    )
+    foreach ($MarkdownFile in $MarkdownFiles) {
+        $Text = Get-Content -Raw $MarkdownFile.FullName
+        foreach ($Match in [regex]::Matches($Text, '(?<![\w`])\$([a-z][a-z0-9-]*)\b')) {
+            $ReferencedSkill = $Match.Groups[1].Value
+            if (-not $SkillNameSet.Contains($ReferencedSkill)) {
+                $RelativeFile = $MarkdownFile.FullName.Substring($RepoRoot.Length + 1)
+                [void]$UnresolvedSkillReferences.Add(('{0} -> ${1}' -f $RelativeFile, $ReferencedSkill))
+            }
+        }
+    }
+    if ($UnresolvedSkillReferences.Count -gt 0) {
+        foreach ($Unresolved in $UnresolvedSkillReferences) {
+            Add-CheckError ('unresolved cross-skill reference: {0}' -f $Unresolved)
+        }
+    }
+    else {
+        Add-CheckPass 'all cross-skill references resolve to installable skills'
+    }
+
     foreach ($MarkdownFile in $MarkdownFiles) {
         $Text = Get-Content -Raw $MarkdownFile.FullName
         foreach ($Match in [regex]::Matches($Text, '\[[^\]]+\]\(([^)#]+)(?:#[^)]+)?\)')) {
@@ -164,6 +277,112 @@ try {
     }
     if ($PythonScripts.Count -gt 0) {
         Add-CheckPass "$($PythonScripts.Count) Python scripts parsed successfully"
+    }
+
+    $AudioTool = Join-Path $SkillsRoot "generate-game-audio\scripts\audio_asset.py"
+    if (-not (Test-Path $AudioTool)) {
+        Add-CheckError "generate-game-audio self-test tool is missing"
+    }
+    else {
+        $AudioSelfTestOutput = @(& python -B $AudioTool self-test 2>&1)
+        $AudioSelfTestExit = $LASTEXITCODE
+        if ($AudioSelfTestExit -ne 0) {
+            Add-CheckError "generate-game-audio self-test failed: $($AudioSelfTestOutput -join ' ')"
+        }
+        else {
+            try {
+                $AudioSelfTest = ($AudioSelfTestOutput -join [Environment]::NewLine) |
+                    ConvertFrom-Json
+                $AudioSelfTestValid = (
+                    $AudioSelfTest.self_test -eq "pass" -and
+                    $AudioSelfTest.generic_manifest_contract -eq "pass" -and
+                    $AudioSelfTest.music_family_member_constraints -eq "pass" -and
+                    $AudioSelfTest.family_selection_coverage_guard -eq "pass" -and
+                    $AudioSelfTest.lifecycle_state -eq "accepted_for_runtime" -and
+                    $AudioSelfTest.human_reviewed_final_claimed -eq $false
+                )
+                if ($AudioSelfTestValid) {
+                    Add-CheckPass "generate-game-audio deterministic self-test passed"
+                }
+                else {
+                    Add-CheckError "generate-game-audio self-test returned an incomplete contract result"
+                }
+            }
+            catch {
+                Add-CheckError "generate-game-audio self-test did not return valid JSON: $($_.Exception.Message)"
+            }
+        }
+    }
+
+    $ContractChecks = @(
+        @{
+            Path = Join-Path $SkillsRoot "generate-game-audio\SKILL.md"
+            Label = "generate-game-audio workflow"
+            Needles = @(
+                "--members-file",
+                "asset-manifest.json",
+                "runtime_candidates",
+                "audio_asset.py select",
+                '$godot-2d-implementation',
+                '$game-production-orchestrator'
+            )
+        },
+        @{
+            Path = Join-Path $SkillsRoot "generate-game-audio\references\bundle-and-qc.md"
+            Label = "audio manifest"
+            Needles = @(
+                "processed_files",
+                "runtime_candidates",
+                "selection_history",
+                "target_duration_seconds",
+                "accepted_for_runtime"
+            )
+        },
+        @{
+            Path = Join-Path $SkillsRoot "godot-2d-implementation\references\audio-integration.md"
+            Label = "Godot audio intake"
+            Needles = @(
+                "source_skill: generate-game-audio",
+                "accepted_for_runtime",
+                "runtime_candidates",
+                "selection_history",
+                "human_reviewed_final"
+            )
+        },
+        @{
+            Path = Join-Path $SkillsRoot "game-production-orchestrator\references\asset-lifecycle.md"
+            Label = "orchestrator asset lifecycle"
+            Needles = @(
+                "media_type",
+                "processed_files",
+                "runtime_candidates",
+                "selection_history",
+                "generate-game-audio select"
+            )
+        },
+        @{
+            Path = Join-Path $SkillsRoot "synthesize-playtest-feedback\SKILL.md"
+            Label = "first-party feedback audio routing"
+            Needles = @(
+                '$generate-game-audio',
+                '$godot-2d-implementation',
+                '$game-production-orchestrator',
+                "human_reviewed_final"
+            )
+        },
+        @{
+            Path = Join-Path $SkillsRoot "synthetic-gameplay-review\SKILL.md"
+            Label = "synthetic review audio routing"
+            Needles = @(
+                '$generate-game-audio',
+                '$godot-2d-implementation',
+                '$game-production-orchestrator',
+                "human_reviewed_final"
+            )
+        }
+    )
+    foreach ($ContractCheck in $ContractChecks) {
+        Test-ContractFile -Path $ContractCheck.Path -Needles $ContractCheck.Needles -Label $ContractCheck.Label
     }
 
     if ($CheckInstalled) {

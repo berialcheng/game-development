@@ -25,7 +25,11 @@ Analyze only material the user supplied or explicitly placed in scope. Do not re
 - Record whether evidence is controlled-session or informal only when that distinction affects confidence or counting.
 - Send AI-controlled or non-participant current-build review to `$synthetic-gameplay-review` and public external commentary to `$game-reference-research`.
 - Ask about uncertain origin only when it changes attribution, counting, or routing; otherwise proceed with a caveat.
-- A small synthesis followed by a scoped fix does not require orchestration. When the user requests changes, pass a concise implementation brief to `$godot-2d-implementation` and continue.
+- A small synthesis followed by a scoped fix does not require orchestration. When the user requests an audio change, classify it before handoff:
+  - composition, timbre, semantic identity, source seam/edit, missing variation, or candidate-content mismatch -> `$generate-game-audio`
+  - event trigger, stream assignment, bus/mix, playback loop, transition, pause, retrigger, or polyphony behavior -> `$godot-2d-implementation`
+  - both asset content and runtime behavior, or an adaptive family spanning gameplay state -> `$game-production-orchestrator`
+- Route other small scoped implementation fixes to `$godot-2d-implementation` and continue.
 - Use `$game-production-orchestrator` only when multiple evidence lanes, cross-system scope, or competing product directions need one managed decision.
 
 ## Fast Synthesis
@@ -48,6 +52,7 @@ Read [references/feedback-method.md](references/feedback-method.md) for recordin
 - Do not infer motives from telemetry or generalize an informal convenience sample to all players.
 - Quote only supplied words. Mark edited, translated, auto-transcribed, or summarized wording as such when exact wording matters.
 - Remove unnecessary names, contact details, account identifiers, and other personal data from the output.
+- Human feedback about an audio asset is evidence, not automatic `human_reviewed_final` approval. Require an explicit quality/rights decision from the responsible person before changing that lifecycle state.
 
 ## Default Output
 

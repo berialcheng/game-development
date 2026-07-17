@@ -29,7 +29,11 @@ Optimize for a solo developer's decision speed. This is a design stress test, no
 - Send supplied first-party human feedback to `$synthesize-playtest-feedback` and public external commentary to `$game-reference-research`.
 - Ask about unknown provenance only when it would change the route or conclusion; otherwise proceed with a short caveat.
 - If the user asks only for review, do not edit the project.
-- If the user asks for review and a small scoped fix, use `$godot-2d-implementation` for the implementation portion and continue without adding orchestration merely because the task has two steps.
+- If the user asks for review and a small scoped audio fix, classify it before handoff:
+  - composition, timbre, semantic identity, source seam/edit, missing variation, or candidate-content mismatch -> `$generate-game-audio`
+  - event trigger, stream assignment, bus/mix, playback loop, transition, pause, retrigger, or polyphony behavior -> `$godot-2d-implementation`
+  - both asset content and runtime behavior, or an adaptive family spanning gameplay state -> `$game-production-orchestrator`
+- Route other small scoped implementation fixes to `$godot-2d-implementation` and continue without adding orchestration merely because the task has two steps.
 - Use `$game-production-orchestrator` only for unclear scope, cross-system work, competing hypotheses, mixed evidence decisions, or a managed milestone.
 
 Do not claim to have played when only reviewing evidence. Do not use this skill for source-only critique or automated regression.
@@ -52,6 +56,7 @@ Read [references/session-method.md](references/session-method.md) for blind pass
 - Do not invent quotes, emotion, enjoyment, accessibility lived experience, retention, or purchase intent.
 - Separate environment or control failures from game failures.
 - Treat source knowledge learned after the pass as diagnosis, not retroactive player evidence.
+- Synthetic listening or replay can compare candidates and reveal runtime defects, but it can never set `human_reviewed_final` or satisfy a human rights decision.
 
 ## Default Output
 

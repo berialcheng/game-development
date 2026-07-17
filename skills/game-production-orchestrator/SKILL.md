@@ -32,11 +32,12 @@ Coordinate only the game work that genuinely benefits from coordination. Optimiz
 
 ## Workflow
 
-1. **Inspect just enough.** Read the request, target `AGENTS.md`, relevant current state, and established commands.
+1. **Inspect just enough.** Read the request, target `AGENTS.md`, relevant current state, and established commands. Read `references/project-scaffold.md` only when a managed project lacks a usable equivalent structure; do not migrate a healthy project to match it.
 
 2. **Define one outcome.** State the player-facing result, smallest coherent scope, what would show it worked, and when to stop. Read `references/iteration-loop.md` only for repeated iteration or milestone management.
 
 3. **Route narrow subtasks.** Use only the required specialist skills. Keep ownership of the managed outcome here; give each specialist only its lane and ask it to return evidence and a result rather than rerouting the whole request.
+   - Route clear music, ambience, stinger, UI-sound, and gameplay-SFX candidate production to `$generate-game-audio`; return here only when several systems, asset promotion, a music family, or release work needs coordination.
 
 4. **Implement and integrate.** Give a producer intended use, relevant constraints, acceptance, and output boundary. Read `references/asset-lifecycle.md` only when generated assets move between candidate and accepted runtime use.
 

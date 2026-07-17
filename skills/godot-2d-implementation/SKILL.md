@@ -23,7 +23,7 @@ Make scoped Godot 4 2D changes that are playable, readable, and verified in prop
 
 - **Scoped task**: the requested outcome, affected area, and useful validation are clear. Implement directly; a formal production phase is not required.
 - **Broad or ambiguous task**: the work spans systems, changes product/UX/art direction, or has no testable outcome. Use `$game-production-orchestrator` first to define scope, acceptance, and stop condition.
-- **Asset-only task**: produce the visual asset with `$generate2dmap` or `$generate2dsprite`, then return here only when engine integration is requested.
+- **Asset-only task**: produce visual assets with `$generate2dmap` or `$generate2dsprite`, and music/SFX with `$generate-game-audio`; return here only when engine integration is requested.
 
 Do not expand a local fix into a production-planning cycle.
 
@@ -45,18 +45,20 @@ Read `references/validation.md` for detailed checks, watchdog policy, rendered e
 
 2. Classify the task.
    - Gameplay/system/UI/data: `references/implementation.md`.
-   - Effects/camera/audio/juice/performance: `references/effects-management.md`.
+   - Effects/camera/juice/performance: `references/effects-management.md`.
+   - Accepted music, ambience, or SFX import/playback: `references/audio-integration.md`.
    - Aseprite/pixel-art source pipeline: `references/aseprite-art-pipeline.md`.
    - Cutout, paper-doll, skeletal, or Spine-compatible character integration: `references/cutout-character-validation.md`.
    - GDD/core loop/scope critique: `references/game-design-audit.md`.
    - Unfamiliar common task flow: use the common task patterns in `references/implementation.md`.
    - External workflow adoption: `references/selective-adoption.md`.
 
-3. Route new visual assets.
+3. Route new visual and audio assets.
    - Use `$generate2dsprite` for new/revised actors, animation sheets, transparent props, FX, projectiles, portraits, or cutout-character parts.
    - Use `$generate2dmap` for maps, levels, tilemaps, layered/parallax scenes, map-local static props, placement, collision plans, zones, or previews.
+   - Use `$generate-game-audio` for new/revised music, ambience, stingers, UI sounds, one-shot SFX, or variation banks.
    - Keep this skill responsible for imports, engine resources, scene wiring, runtime data, tests, and captures.
-   - In a managed project, import only assets explicitly accepted by the target project's asset contract; keep source/reference/preview bundles out of runtime imports.
+   - In a managed project, import only assets explicitly accepted by the target project's asset contract. For generated audio, require `accepted_for_runtime` plus non-empty `runtime_candidates` in `asset-manifest.json`; keep source/reference/preview bundles out of runtime imports.
 
 4. Define a small implementation contract.
    - State player-facing outcome, in/out scope, likely failure, validation level, and required evidence.
@@ -86,6 +88,7 @@ Read `references/validation.md` for detailed checks, watchdog policy, rendered e
 | UI layout | One relevant non-headless capture at a target state. |
 | Animation, VFX, camera, or feedback | Short deterministic rendered sequence, capture, or manifest. |
 | Imported visual asset | File/alpha/frame or part checks plus Godot import/load and one gameplay-scale view. |
+| Imported audio asset | File/format QC plus Godot import/load, event/bus check, and representative runtime listening or recording. |
 | Broad integration or release | Full documented smoke/regression and representative evidence. |
 
 ## Safe Godot Execution
@@ -102,7 +105,7 @@ Read `references/validation.md` for detailed checks, watchdog policy, rendered e
 - Use the project's existing language; default to typed GDScript only for new GDScript projects or files.
 - Prefer deterministic seeds for reproducible gameplay tests and captures.
 - Use Godot Containers and Theme resources for adaptable UI instead of unnecessary absolute positioning.
-- Keep source art and runtime exports distinct; do not treat generated candidates as final art.
+- Keep source art/audio and runtime exports distinct; do not treat generated candidates as final assets.
 - Do not use code-drawn art when the user requested real visual assets.
 - Do not let manifest counters stand in for actual pixel review when the question is visual.
 - Do not add CI/export configuration before its local equivalent passes.
@@ -120,6 +123,6 @@ Report:
 
 - Changed code, scene/resource, data, asset, and doc files.
 - Validation level, commands/checks, and notable evidence.
-- Imported asset contract/state when relevant.
+- Imported visual/audio asset contract and state when relevant.
 - What remains unverified and why.
 - Known risks and whether broader planning or human visual/product review is still required.

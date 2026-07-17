@@ -1,6 +1,6 @@
 # Game Development Skills
 
-Reusable agent skills for solo-developer-first game research, synthetic gameplay review, first-party player-feedback synthesis, lightweight production coordination, generated 2D assets, and scoped Godot 4 2D implementation.
+Reusable agent skills for solo-developer-first game research, synthetic gameplay review, first-party player-feedback synthesis, lightweight production coordination, generated 2D and audio assets, and scoped Godot 4 2D implementation.
 
 This repository is a skill collection. The installable surface is:
 
@@ -9,6 +9,7 @@ skills/game-reference-research
 skills/synthetic-gameplay-review
 skills/synthesize-playtest-feedback
 skills/game-production-orchestrator
+skills/generate-game-audio
 skills/generate2dmap
 skills/generate2dsprite
 skills/godot-2d-implementation
@@ -32,6 +33,7 @@ skills/godot-2d-implementation
 | [`synthetic-gameplay-review`](skills/synthetic-gameplay-review/SKILL.md) | Synthetic player reviewer | Play or inspect a build, trace observable friction and payoff, and produce testable improvements without presenting it as human feedback. |
 | [`synthesize-playtest-feedback`](skills/synthesize-playtest-feedback/SKILL.md) | First-party player-feedback analyst | Turn controlled sessions or informal private feedback into a few grounded themes and practical next changes. |
 | [`game-production-orchestrator`](skills/game-production-orchestrator/SKILL.md) | Producer / iteration manager | Coordinate only genuinely cross-system, mixed-evidence, asset-promotion, milestone, or release work. |
+| [`generate-game-audio`](skills/generate-game-audio/SKILL.md) | Game audio asset producer | Create music, ambience, stingers, UI sounds, and gameplay SFX candidates with provenance, deterministic WAV QC, and an engine-ready handoff. |
 | [`generate2dmap`](skills/generate2dmap/SKILL.md) | 2D map producer | Create the lightest playable map bundle with only the needed visual layers, object data, collision, scene hooks, and preview. |
 | [`generate2dsprite`](skills/generate2dsprite/SKILL.md) | 2D asset producer | Create sprites, animation sheets, transparent props, FX, portraits, and cutout-character parts with deterministic cleanup and QC. |
 | [`godot-2d-implementation`](skills/godot-2d-implementation/SKILL.md) | Godot implementer | Execute scoped Godot 4 2D changes: scenes, scripts, UI, gameplay, effects, imported assets, tests, and captures. |
@@ -44,6 +46,7 @@ review + small scoped fix --------> review skill -> implementation skill
 public external evidence ---------> game-reference-research
 synthetic/current-build evidence -> synthetic-gameplay-review
 first-party/private feedback -----> synthesize-playtest-feedback
+generated music/SFX assets -------> generate-game-audio
 genuine coordination need --------> game-production-orchestrator
 ```
 
@@ -131,7 +134,7 @@ Validate the repository before publishing:
 powershell -ExecutionPolicy Bypass -File tools\validate-skill-repo.ps1
 ```
 
-The validator runs every skill's structural check and also audits catalogs, registry metadata, relative links, UI metadata budgets, Python syntax, long-reference contents, and skill line budgets. Use `-CheckInstalled` after syncing user-level skills.
+The validator runs every skill's structural check and also audits Git-tracked install files, generated Python caches, catalogs, registry metadata, direct reference routing, cross-skill references, relative links, UI metadata budgets, Python syntax, long-reference contents, and skill line budgets. Use `-CheckInstalled` after syncing user-level skills.
 
 Individual structural commands remain available when isolating one failure:
 
@@ -140,6 +143,7 @@ python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\synthetic-gameplay-review
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\synthesize-playtest-feedback
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\game-production-orchestrator
+python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate-game-audio
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dmap
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dsprite
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\godot-2d-implementation

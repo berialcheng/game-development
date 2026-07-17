@@ -1,0 +1,4 @@
+interface:
+  display_name: "Generate Game Audio"
+  short_description: "Generate, QC, and select game-audio candidates"
+  default_prompt: "Use $generate-game-audio to create the smallest useful game-audio bundle, preserve provenance, apply per-member deterministic QC, and record an explicit accepted runtime selection without claiming final human approval or changing the engine project."

@@ -2,7 +2,7 @@
   "name": "game-development-skills",
   "version": "0.1.0",
   "private": true,
-  "description": "Solo-developer-first Codex skills for game research, gameplay review, player-feedback synthesis, lightweight production coordination, Godot 4 2D implementation, and generated 2D assets.",
+  "description": "Solo-developer-first Codex skills for game research, gameplay review, player-feedback synthesis, lightweight production coordination, Godot 4 2D implementation, and generated 2D and audio assets.",
   "keywords": [
     "codex-skills",
     "agent-skills",
@@ -13,6 +13,9 @@
     "synthetic-gameplay-review",
     "playtest-feedback",
     "image-generation",
+    "audio-generation",
+    "game-music",
+    "sound-effects",
     "sprites",
     "maps",
     "asset-lifecycle"
@@ -24,6 +27,7 @@
       "skills/synthetic-gameplay-review",
       "skills/synthesize-playtest-feedback",
       "skills/game-production-orchestrator",
+      "skills/generate-game-audio",
       "skills/godot-2d-implementation",
       "skills/generate2dsprite",
       "skills/generate2dmap"
