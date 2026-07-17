@@ -1,10 +1,12 @@
 {
   "schema_version": "1",
   "name": "game-development-skills",
-  "description": "Codex skills for game reference research, iterative game production orchestration, Godot 4 2D implementation, and image-generation-first 2D game asset production.",
+  "description": "Solo-developer-first Codex skills for fast game research, gameplay review, player-feedback synthesis, lightweight production coordination, Godot 4 2D implementation, and generated 2D assets.",
   "skills_root": "skills",
   "install_paths": [
     "skills/game-reference-research",
+    "skills/synthetic-gameplay-review",
+    "skills/synthesize-playtest-feedback",
     "skills/game-production-orchestrator",
     "skills/godot-2d-implementation",
     "skills/generate2dsprite",
@@ -16,14 +18,28 @@
       "path": "skills/game-reference-research",
       "display_name": "Game Reference Research",
       "role": "Researcher",
-      "description": "Game reference and competitor research workflow. Use when researching Steam pages, trailers, screenshots, community feedback, reference games, UX patterns, mechanics, visual direction, and prototype implications before production planning."
+      "description": "Research public games, store pages, media, reviews, and community discussions to answer a concrete design question and produce practical prototype implications. Use for external references or public player commentary; prefer the smallest useful source set. Do not use for current-build review or first-party feedback."
+    },
+    {
+      "name": "synthetic-gameplay-review",
+      "path": "skills/synthetic-gameplay-review",
+      "display_name": "Synthetic Gameplay Review",
+      "role": "Synthetic player reviewer",
+      "description": "Play or inspect a current build through synthetic player lenses and turn observable friction into small, testable improvements. Use for AI-controlled play or developer-supplied non-participant runtime evidence. May continue into a scoped fix when requested; never present synthetic observations as human feedback."
+    },
+    {
+      "name": "synthesize-playtest-feedback",
+      "path": "skills/synthesize-playtest-feedback",
+      "display_name": "Synthesize Playtest Feedback",
+      "role": "First-party player feedback analyst",
+      "description": "Synthesize user-supplied first-party playtest or private player feedback into useful themes and practical next changes. Use for notes, recordings, quotes, interviews, surveys, closed-beta comments, and related telemetry. Keep synthetic and public evidence separate; may hand off scoped fixes when requested."
     },
     {
       "name": "game-production-orchestrator",
       "path": "skills/game-production-orchestrator",
       "display_name": "Game Production Orchestrator",
       "role": "Producer / iteration manager",
-      "description": "Coordinate multi-stage game production when scope, acceptance criteria, cross-skill handoffs, asset promotion, playtest iteration, or milestone packaging must be decided. Use for planning and reviewing managed game work; do not use for an already scoped implementation or standalone asset request."
+      "description": "Coordinate game work when a solo developer needs cross-system sequencing, ambiguous scope, mixed evidence, asset promotion, or milestone/release validation. Use only when coordination adds value; route clear implementation, asset, research, review, and review-plus-small-fix tasks directly to specialists."
     },
     {
       "name": "godot-2d-implementation",
@@ -53,9 +69,10 @@
     "generate2dmap",
     "generate2dsprite",
     "godot-2d-implementation",
-    "game-production-orchestrator"
+    "synthetic-gameplay-review",
+    "synthesize-playtest-feedback"
   ],
-  "recommended_order_note": "Routing is conditional: standalone asset work goes directly to generate2dmap or generate2dsprite, scoped Godot work goes directly to godot-2d-implementation, and managed multi-stage work uses research only when needed before orchestrator handoffs, implementation, and milestone review.",
+  "recommended_order_note": "Routing is conditional, not a required pipeline: public external evidence goes to game-reference-research, synthetic current-build review goes to synthetic-gameplay-review, supplied first-party or private human feedback goes to synthesize-playtest-feedback, and clear asset, implementation, review, or review-plus-small-fix work stays on the shortest specialist path. Use the orchestrator only when coordination adds value.",
   "non_installable_content": [
     "demo/",
     "godot-2d-agent-template/",

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Synthesize Playtest Feedback"
+  short_description: "Turn first-party player feedback into next changes"
+  default_prompt: "Use $synthesize-playtest-feedback to turn these first-party sessions, recordings, notes, or private comments into a few grounded themes and the most useful next change."

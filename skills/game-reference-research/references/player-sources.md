@@ -1,6 +1,10 @@
 # Player Sources
 
-Use this reference for reviews, community screenshots, discussion boards, wiki pages, streams, and lets-play videos.
+Use this reference for publicly available reviews, community screenshots, discussion boards, wiki pages, streams, and lets-play videos. Route user-supplied first-party sessions and private player feedback to `$synthesize-playtest-feedback`.
+
+For a fixed set of supplied public comments, analyze that set before gathering more. Record platform, date, version, query, or selection method only when it changes how the result should be interpreted.
+
+If origin is unresolved, ask only when public versus first-party context would change routing or attribution. Never infer that separate comments represent distinct people.
 
 ## Source Types
 
@@ -40,7 +44,7 @@ Look for repeated phrases around:
 - Endgame boredom or content shortage.
 - Controller/Steam Deck issues.
 
-Summarize patterns, not isolated comments.
+Summarize useful patterns and counterexamples, not an exhaustive sentiment report. Public comments can suggest a pain point or payoff; they do not establish population frequency without a valid denominator.
 
 ## Safety And Rights
 

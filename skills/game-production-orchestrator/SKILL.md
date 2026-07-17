@@ -1,100 +1,72 @@
 ---
 name: game-production-orchestrator
-description: "Coordinate multi-stage game production when scope, acceptance criteria, cross-skill handoffs, asset promotion, playtest iteration, or milestone packaging must be decided. Use for planning and reviewing managed game work; do not use for an already scoped implementation or standalone asset request."
+description: "Coordinate game work when a solo developer needs cross-system sequencing, ambiguous scope, mixed evidence, asset promotion, or milestone/release validation. Use only when coordination adds value; route clear implementation, asset, research, review, and review-plus-small-fix tasks directly to specialists."
 ---
 
 # Managed Game Production
 
 ## Purpose
 
-Coordinate work that spans planning, research, asset production, implementation, review, or milestone decisions. Keep scoped implementation and standalone asset requests on their specialist skill paths.
+Coordinate only the game work that genuinely benefits from coordination. Optimize for playable progress, short feedback loops, and reversible decisions rather than process completeness.
 
-Treat Codex output as a tested draft, not final creative authority. Keep human ownership over product goals, art direction, licensing, subjective quality, and release readiness.
+## Solo-Developer Principles
+
+- **Playable progress over paperwork.** Evidence and docs exist to unlock the next change.
+- **One outcome at a time.** Prefer a coherent playable improvement over a broad plan.
+- **Cheapest sufficient proof.** Match validation effort to the cost of being wrong.
+- **Direct work by default.** A clear task should go straight to the specialist that can finish it.
+- **Reversible autonomy.** Proceed with safe in-scope changes the user requested; pause only for a material creative fork, destructive action, external impact, or missing authority.
+- **Taste is a choice, not a signoff process.** Present meaningful alternatives when needed, but do not invent approval gates for a personal project.
 
 ## Entry Gate
 
-Classify the request before creating plans or docs:
+- Route a clear implementation, asset, research, review, or review-plus-small-fix request directly to the owning skill or short specialist sequence.
+- Continue here only when scope is unclear, several systems or producers depend on one another, evidence lanes must inform one decision, accepted assets may be replaced, or a milestone/release needs integrated validation.
+- Do not orchestrate merely because a task has two steps or belongs to a game project.
 
-- **Standalone task**: the outcome and scope are already clear and one specialist can complete it. Route directly to that skill and stop orchestrating.
-- **Managed project task**: the work spans stages, has unclear acceptance, replaces runtime assets, or needs coordinated handoffs. Continue with this skill.
-- **Milestone or release task**: the work needs integrated validation, playtest review, asset promotion, or packaging. Continue with stricter evidence and human gates.
+## Work Depth
 
-Do not invoke this skill merely because the task belongs to a game project.
-
-## Work Modes
-
-- `prototype`: default for personal development. Produce the smallest playable result and risk-appropriate evidence; avoid release-only process.
-- `milestone`: integrate a meaningful playable slice, representative captures, core smoke coverage, and current-state docs.
-- `release`: add full regression, rights/disclosure review, final asset promotion, and release-readiness decisions.
+- `prototype` is the default: make the smallest useful playable change and run focused validation.
+- Use `milestone` only for an integrated slice that benefits from broader smoke and representative captures/playtest evidence.
+- Use `release` only when the user is actually preparing a release; then add relevant regression, platform, rights, packaging, and disclosure checks.
 
 ## Workflow
 
-1. Inspect the existing project.
-   - Read the user request, target `AGENTS.md`, current design/state docs, and established commands.
-   - Reuse equivalent project structures instead of creating a parallel document tree.
+1. **Inspect just enough.** Read the request, target `AGENTS.md`, relevant current state, and established commands.
 
-2. Define one managed outcome.
-   - Record player-facing outcome, in/out scope, acceptance criteria, required evidence, stop condition, and work mode.
-   - Read `references/iteration-loop.md` when repeated iteration, phase sizing, playtest intake, or milestone state must be managed.
-   - Use the same reference when a broad outcome must be split into implementable phases.
+2. **Define one outcome.** State the player-facing result, smallest coherent scope, what would show it worked, and when to stop. Read `references/iteration-loop.md` only for repeated iteration or milestone management.
 
-3. Route only required work.
-   - Use `$game-reference-research` only when an external design decision needs evidence.
-   - Use `$generate2dmap` only for required map, stage, layer, collision, placement, or scene-hook assets.
-   - Use `$generate2dsprite` only for required sprites, props, FX, portraits, or cutout-character parts.
-   - Use `$godot-2d-implementation` for concrete Godot scenes, scripts, data, imports, tests, and captures.
+3. **Route narrow subtasks.** Use only the required specialist skills. Keep ownership of the managed outcome here; give each specialist only its lane and ask it to return evidence and a result rather than rerouting the whole request.
 
-4. Define handoffs before production.
-   - Give each producer intended use, style/context, dimensions or runtime constraints, acceptance criteria, output boundary, and rejected-output policy.
-   - For managed generated assets, read `references/asset-lifecycle.md`.
+4. **Implement and integrate.** Give a producer intended use, relevant constraints, acceptance, and output boundary. Read `references/asset-lifecycle.md` only when generated assets move between candidate and accepted runtime use.
 
-5. Review evidence, not intentions.
-   - Compare the result with acceptance criteria using relevant runtime behavior, tests, captures, playtest notes, or asset manifests.
-   - Read `references/review.md` for player-facing, implementation, asset, or playtest review.
+5. **Review cheaply.** Use the smallest runtime behavior, test, capture, or feedback set that answers whether to keep the change. Read `references/review.md` only when several review surfaces or evidence lanes matter.
 
-6. Decide the next state.
-   - Choose keep, tweak, revert, split, promote, package, or stop.
-   - Update only docs that remain useful as current project state or durable decisions.
+6. **Decide and stop.** Keep, tweak, revert, split, promote, package, or stop. Update an existing current-state document only when leaving it stale would mislead later work.
 
-## Minimal Project State
+## Guardrails Worth Their Cost
 
-For a new managed project, prefer only:
-
-- `AGENTS.md`: project commands, paths, forbidden edits, and done criteria.
-- A vision document or equivalent: player-facing purpose and non-goals.
-- A current-work document or equivalent: active outcome, scope, acceptance, and next step.
-- Optional decision, asset-lifecycle, and evidence records only when the project needs them.
-
-Read `references/project-scaffold.md` when creating or repairing this structure. Do not migrate a healthy existing project merely to match suggested paths.
-
-## Hard Rules
-
-- Do not expand a standalone task into a managed production cycle.
-- Do not ask Codex to optimize an entire game in one pass.
-- Do not silently overwrite accepted runtime or final assets.
-- Do not let mechanical validation stand in for subjective art, UX, or release approval.
-- Mark uncertain product/design changes as proposed instead of silently changing active rules.
-- Preserve a rollback point for broad rewrites and asset promotions.
-- Do not create a new review surface when an existing test, capture, or playtest artifact answers the question.
+- Do not expand a focused request into a production program.
+- Preserve a rollback point for broad rewrites or replacement of accepted runtime assets.
+- Do not turn mechanical checks into claims about fun, style, or market response.
+- Keep human participants, synthetic runs, public comments, and telemetry populations distinct when counts influence a decision.
+- Do not create a document, dashboard, formal signoff, or new review pass unless it reduces a real project risk.
 
 ## Handoff Summary
 
 | Direction | Minimum handoff |
 | --- | --- |
-| Research -> production | Findings, sources, confirmed vs inferred claims, prototype implications, open risks. |
-| Production -> map/sprite | Intended use, style/context, runtime constraints, acceptance, lifecycle/output boundary. |
-| Map/sprite -> implementation | Candidate paths, prompt/provenance, QC, manifest/state when managed, remaining review. |
-| Production -> Godot | Outcome, scope, acceptance, target docs, accepted assets, required validation, stop condition. |
-| Godot -> production | Changed files, validation evidence, captures/manifests, risks, and current maturity. |
+| Production -> specialist | Outcome, narrow task, relevant constraints, acceptance, existing inputs, and return target. |
+| Specialist -> production | Result, changed/output files, evidence, material risk, and next recommendation. |
+| Production -> evidence review | Question, build/scenario, source context, available evidence, and what decision it should inform. |
+| Evidence review -> production | What worked, top findings, evidence, disagreement/unknowns that matter, and smallest next action. |
 
 ## Output Contract
 
-Report:
+Default to a short working update:
 
-- Work mode and managed outcome.
-- In-scope and out-of-scope work.
-- Acceptance criteria and stop condition.
-- Required skill handoffs.
-- Evidence reviewed or still missing.
-- Human decisions and material risks.
-- Decision: keep, tweak, revert, split, promote, package, or stop.
+- outcome and current state
+- work completed or next narrow step
+- evidence that matters
+- decision: keep, tweak, revert, split, promote, package, or stop
+- one unresolved creative fork or material risk, only if it blocks useful progress

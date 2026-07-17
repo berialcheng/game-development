@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Reference Research"
-  short_description: "Research reference games, UX, mechanics, and community feedback"
-  default_prompt: "Use $game-reference-research to research reference games, extract UX/mechanics/art takeaways, identify assumptions, and produce a production handoff."
+  short_description: "Research only enough public evidence to decide"
+  default_prompt: "Use $game-reference-research to answer this concrete design question with the smallest useful public source set, then turn the findings into a practical prototype decision."

@@ -1,4 +1,4 @@
 interface:
   display_name: "Game Production Orchestrator"
-  short_description: "Plan game iterations and govern generated assets"
-  default_prompt: "Use $game-production-orchestrator to define the next managed-game scope, acceptance criteria, required handoffs, validation level, and stop condition."
+  short_description: "Coordinate only genuinely cross-system game work"
+  default_prompt: "Use $game-production-orchestrator only where this outcome needs real coordination; keep the loop lightweight, playable, reversible, and focused on the next useful decision."

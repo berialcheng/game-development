@@ -14,17 +14,14 @@ Use this reference for managed work that needs more than one implementation/revi
 
 ## Outcome Contract
 
-Define one outcome with:
+For prototype work, define only:
 
 - player-facing result
-- in-scope and out-of-scope work
-- acceptance criteria
-- likely failure
-- validation level and evidence
+- smallest coherent change
+- cheapest evidence that would show improvement
 - stop condition
-- work mode: prototype, milestone, or release
 
-If these are already clear, implementation can start without creating another planning document.
+Add explicit in/out scope, failure analysis, or broader acceptance only when ambiguity or cost makes it useful. If the next change is already clear, start without creating a planning document.
 
 ## Loop
 
@@ -38,17 +35,17 @@ define -> implement -> validate -> review -> decide
 4. **Review** runtime behavior, captures, playtest notes, or asset evidence against acceptance.
 5. **Decide** keep, tweak, revert, split, promote, package, or stop.
 
-Do not add a new phase merely to create another evidence surface. A phase should change player value, production readiness, or a meaningful risk.
+Do not add a phase merely to create another evidence surface. A phase should change player value, production readiness, or a meaningful risk.
 
 ## Phase Sizing
 
-A useful phase:
+A useful phase usually:
 
 - has one observable outcome
 - touches a coherent set of systems
 - can be validated without proving the whole game
 - leaves a playable or safely reversible state
-- has an explicit stop condition
+- has an obvious stop condition
 
 Split work when unrelated systems, multiple subjective decisions, or several independent failure modes would make the result hard to review.
 
@@ -70,21 +67,13 @@ Split work when unrelated systems, multiple subjective decisions, or several ind
 
 - Run full relevant regression and platform checks.
 - Resolve rights/disclosure and final-asset decisions.
-- Require explicit human release readiness.
+- Present remaining release risks clearly; the user decides whether to ship.
 
 ## Playtest Intake
 
-Record only evidence that can change a decision:
+Record only what changes a decision: build/scenario when relevant, the observation or short quote, enough source context to interpret it, and the resulting change or test.
 
-- build/version and scenario
-- device/input when relevant
-- observation or short quote
-- reproduction steps
-- severity/frequency
-- expected vs actual behavior
-- resulting decision or backlog item
-
-Separate observations from proposed solutions. Prefer one reusable issue over repeating the same note across logs.
+Use `$synthesize-playtest-feedback` when first-party human material needs theme synthesis or meaningful counting. Keep participant, synthetic-run, public-comment, and telemetry counts separate only when counts affect the decision. Compare what each lane says about the same hypothesis; do not normalize incompatible evidence into one score.
 
 ## Documentation Cost
 

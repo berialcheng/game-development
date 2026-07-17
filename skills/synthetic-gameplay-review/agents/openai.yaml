@@ -1,0 +1,4 @@
+interface:
+  display_name: "Synthetic Gameplay Review"
+  short_description: "Fast synthetic play, review, and scoped iteration"
+  default_prompt: "Use $synthetic-gameplay-review to play or inspect this build, identify at most three high-leverage findings, and if requested make and replay a small scoped fix."

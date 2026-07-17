@@ -2,6 +2,10 @@
 
 Use this reference when a managed change needs an explicit UX, implementation, asset, or playtest review. Review the smallest evidence set that can answer the current question.
 
+Use `$synthetic-gameplay-review` for a dedicated direct-play or runtime-evidence pass. Use `$synthesize-playtest-feedback` for supplied first-party human sessions, notes, recordings, or private feedback. This reference is for lightweight review inside an already managed outcome.
+
+Use source context only to avoid mixing claims: first-party human feedback, synthetic/current-build evidence, and public external research. Keep this orchestrator active only when those lanes must inform the same decision.
+
 ## Evidence Selection
 
 | Question | Prefer |
@@ -48,9 +52,9 @@ Separate:
 
 - mechanical validity: files, alpha, dimensions, frames/parts, pivots, references, import
 - runtime validity: correct scene/state, scale, draw order, sockets/collision, animation
-- subjective approval: identity, readability, style, motion, final quality, rights
+- subjective decision: identity, readability, style, motion, final quality, rights
 
-Mechanical success cannot promote subjective art automatically.
+Mechanical checks cannot answer subjective quality. Make the practical choice when direction is clear; present alternatives only when taste materially changes the project.
 
 ## Playtest Review
 
@@ -62,16 +66,10 @@ Convert observations into a small decision list:
 4. hypothesis needing another focused test
 5. optional polish
 
-Keep human priority decisions explicit.
+Prefer a clear next change over a complete issue inventory.
+
+Keep participant, synthetic-run, public-comment, and telemetry counts separate when they influence the decision. If lanes disagree, compare their relevance to the current build and question instead of voting across them.
 
 ## Output
 
-Report:
-
-- question reviewed
-- evidence inspected
-- confirmed issue versus inference
-- severity and player impact
-- keep/tweak/revert/split/promote/package/stop decision
-- smallest next action or missing evidence
-- rollback or human decision when required
+Report the question, useful evidence, player impact, keep/tweak/revert/split/promote/package/stop decision, and smallest next action. Add missing evidence or rollback detail only when it affects that decision.

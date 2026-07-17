@@ -1,36 +1,53 @@
 # Game Development Skills
 
-Reusable agent skills for game research, production planning, image-generated 2D assets, and scoped Godot 4 2D implementation.
+Reusable agent skills for solo-developer-first game research, synthetic gameplay review, first-party player-feedback synthesis, lightweight production coordination, generated 2D assets, and scoped Godot 4 2D implementation.
 
 This repository is a skill collection. The installable surface is:
 
 ```text
 skills/game-reference-research
+skills/synthetic-gameplay-review
+skills/synthesize-playtest-feedback
 skills/game-production-orchestrator
 skills/generate2dmap
 skills/generate2dsprite
 skills/godot-2d-implementation
 ```
 
+## Solo Developer Defaults
+
+- Optimize for the shortest path from a question to a better playable build.
+- Send clear work directly to the owning specialist; orchestration is optional and must earn its cost.
+- Use the cheapest evidence that can support the next decision, then stop.
+- Keep outputs compact: what worked, up to three important changes, and the next action.
+- Continue from review into a small scoped fix when the user asks; do not add a formal approval stage.
+- Increase documentation, counting, review breadth, and release checks only as the cost of being wrong increases.
+- Keep only three core evidence guardrails: never present synthetic feedback as human, never merge incompatible populations, and never exceed the user's change authority.
+
 ## Skills
 
 | Skill | Role | Use When |
 | --- | --- | --- |
-| [`game-reference-research`](skills/game-reference-research/SKILL.md) | Researcher | Research Steam pages, screenshots, videos, community feedback, mechanics, UX patterns, visual references, and production handoff notes. |
-| [`game-production-orchestrator`](skills/game-production-orchestrator/SKILL.md) | Producer / iteration manager | Coordinate managed, multi-stage work when scope, acceptance, handoffs, asset promotion, playtest, or milestone decisions are needed. |
+| [`game-reference-research`](skills/game-reference-research/SKILL.md) | Public reference researcher | Research external store pages, screenshots, videos, public community commentary, mechanics, UX patterns, and production implications. |
+| [`synthetic-gameplay-review`](skills/synthetic-gameplay-review/SKILL.md) | Synthetic player reviewer | Play or inspect a build, trace observable friction and payoff, and produce testable improvements without presenting it as human feedback. |
+| [`synthesize-playtest-feedback`](skills/synthesize-playtest-feedback/SKILL.md) | First-party player-feedback analyst | Turn controlled sessions or informal private feedback into a few grounded themes and practical next changes. |
+| [`game-production-orchestrator`](skills/game-production-orchestrator/SKILL.md) | Producer / iteration manager | Coordinate only genuinely cross-system, mixed-evidence, asset-promotion, milestone, or release work. |
 | [`generate2dmap`](skills/generate2dmap/SKILL.md) | 2D map producer | Create the lightest playable map bundle with only the needed visual layers, object data, collision, scene hooks, and preview. |
 | [`generate2dsprite`](skills/generate2dsprite/SKILL.md) | 2D asset producer | Create sprites, animation sheets, transparent props, FX, portraits, and cutout-character parts with deterministic cleanup and QC. |
 | [`godot-2d-implementation`](skills/godot-2d-implementation/SKILL.md) | Godot implementer | Execute scoped Godot 4 2D changes: scenes, scripts, UI, gameplay, effects, imported assets, tests, and captures. |
 
-Recommended workflow:
+Routing is conditional, not a required production pipeline:
 
 ```text
-game-reference-research (only when external evidence is needed)
--> game-production-orchestrator (only for managed, multi-stage work)
--> generate2dmap and/or generate2dsprite (only for needed visual assets)
--> godot-2d-implementation
--> game-production-orchestrator milestone review
+clear task -----------------------> owning specialist
+review + small scoped fix --------> review skill -> implementation skill
+public external evidence ---------> game-reference-research
+synthetic/current-build evidence -> synthetic-gameplay-review
+first-party/private feedback -----> synthesize-playtest-feedback
+genuine coordination need --------> game-production-orchestrator
 ```
+
+Ask about source context only when it changes routing, counting, or the conclusion. Use the orchestrator when coordination materially reduces risk, not merely because work has more than one step.
 
 ## Install With `npx skills`
 
@@ -120,6 +137,8 @@ Individual structural commands remain available when isolating one failure:
 
 ```powershell
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\game-reference-research
+python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\synthetic-gameplay-review
+python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\synthesize-playtest-feedback
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\game-production-orchestrator
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dmap
 python C:\Users\beria\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\generate2dsprite

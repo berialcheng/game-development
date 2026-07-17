@@ -11,6 +11,8 @@ $Warnings = [System.Collections.Generic.List[string]]::new()
 
 $LineBudgets = @{
     "game-reference-research" = 120
+    "synthetic-gameplay-review" = 130
+    "synthesize-playtest-feedback" = 130
     "game-production-orchestrator" = 130
     "generate2dmap" = 200
     "generate2dsprite" = 190
